@@ -4,6 +4,8 @@ const pool = require("./connection");
 const Cryptr = require("cryptr");
 const cryptr = new Cryptr(process.env.ENCRYPTION_SECRET);
 const Report = require("fluentreports").Report;
+const nodemailer = require("nodemailer");
+
 
 router.put("/successURL", (req, res) => {
   let successURL = cryptr.encrypt(JSON.stringify(req.body));
@@ -14,11 +16,15 @@ router.put("/successURL", (req, res) => {
 router.get("/successResponse/:pfast", (req, res) => {
   let successURL = req.params.pfast;
   let decrypted = cryptr.decrypt(successURL);
+  // console.log(decrypted)
   let info = JSON.parse(decrypted);
   let initialData = [];
   primary_data = [];
   let invoiceNumber;
-  let mysql = `select first_name, last_name from users where id = ${info.id}`;
+  let email;
+  let firstName;
+  let lastName
+  let mysql = `select first_name, last_name, email from users where id = ${info.id}`;
   pool.getConnection(function(err, connection) {
     if (err) {
       connection.release();
@@ -31,6 +37,9 @@ router.get("/successResponse/:pfast", (req, res) => {
         last_name: result[0].last_name,
         amount_paid: info.finalAmount
       };
+      email = result[0].email
+      firstName = result[0].first_name
+      lastName = result[0].last_name
       let mysql1 = `Insert into invoices (user_id, total_Value) values (${
         info.id
       }, ${info.finalAmount})`;
@@ -56,7 +65,7 @@ router.get("/successResponse/:pfast", (req, res) => {
       res.json(sending);
       connection.query(mysql, function(error, result) {
         if (error) {
-          console.log(error);
+          console.log('ERROR IS',error);
         }
         try {
           invoiceNumber = result[2][0].invoiceNumber;
@@ -136,6 +145,88 @@ router.get("/successResponse/:pfast", (req, res) => {
         primary_data = initialData;
         printreport(invoiceNumber);
         console.log('Invoice Number:',invoiceNumber)
+        console.log('Email is:',email)
+        console.log('FirstName:',firstName)
+        console.log('LastName:',lastName)
+        
+
+        //********************************** */
+
+
+        let response = {
+          success: "Your Email has been sent!",
+          failure: "There was a problem, please try again later"
+        };
+        // res.send(response.success)
+      
+        let firstname = firstName;
+        let lastname = lastName;
+        email = email;
+      
+        const output = `
+          
+          <br>
+          <h3>Thank you for your business.</h3>
+      
+          <p>Dear ${firstname} ${lastname} thank you for your purchase.</p>
+          <br>
+          <p>Your invoice is attached. Should you have any queries please do not hesitate to contact us.</p>
+      
+          <br><br>
+      
+          <p>Yours</p>
+          <p>Boredom Busters</p>
+          <h3 style="font-weight: bold;">Message</h3><br>
+          `;
+       console.log(output)
+        let transporter = nodemailer.createTransport({
+          host: process.env.MAILHOST,
+          port: 465, //587
+      
+          secure: true,
+          auth: {
+            user: process.env.MAILUSER,
+            pass: process.env.MAILPASSWORD
+          },
+          tls: {
+            rejectUnauthorized: false
+          }
+        });
+                                                     
+          var mailOptions = {
+            from: "Boredom Busters<donnae@boredombusters.co.za>", // sender address                                   
+            to: "waynebruton@icloud.com, boredombusters01@gmail.com", // list of receivers                                 
+            subject: `Boredom Busters Invoice`, // Subject line                                                 
+            text: "Hello world?", // plaintext body                                                 
+            html: output, // html body                                               
+              attachments: [
+                  {
+                      filename: `Invoice-${invoiceNumber}.pdf`, 
+                      path: `public/files/Invoice-${invoiceNumber}.pdf`,                                        
+                      contentType: 'application/pdf'
+                  }]
+          };
+        
+      
+        // let mailOptions = {
+        //   from: "Boredom Busters Contact Form <donnae@boredombusters.co.za>",
+        //   to: "waynebruton@icloud.com, boredombusters01@gmail.com",
+        //   subject: `Boredom Busters Contact Form`,
+        //   text: "Hello world?",
+        //   html: output
+        // };
+      
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            console.log(response.failure)
+          } else {
+            console.log(response.success)
+          } 
+        });
+        //*************************************************** */
+
+
+
       });
     });
    
@@ -285,6 +376,11 @@ function printreport(invoiceNumber) {
     .footer(productTypeFooter);
   r.printStructure();
   report.render(function(err, name) {});
+}
+
+function sendInvoice(invoiceNumber, firstName, lastName, email) {
+  
+
 }
 
 module.exports = router;

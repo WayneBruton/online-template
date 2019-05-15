@@ -69,7 +69,7 @@
                       placeholder="Province"
                       v-model="deliveryDetails[0].province"
                     ></v-text-field>
-                    <v-btn flat background-color="black" @click="updateDelivery">Update</v-btn>
+                    <v-btn flat color="black darken-1" @click="updateDelivery">Update</v-btn>
                     <br>
                   </v-flex>
                 </form>
@@ -80,7 +80,7 @@
             <v-btn flat :to="{ name: 'showroom' }">Return to shop</v-btn>
           </v-stepper-content>
           <v-stepper-content step="3">
-            <v-card class="mb-5" color="grey lighten-1" height="200px">
+            <v-card class="mb-5" color="black lighten-1" height="200px">
               <panel title="Checkout">
                 <h3>Click Finalise</h3>
                 <v-container fluid px-0>
@@ -90,6 +90,7 @@
                         readonly
                         v-model="checkbox1"
                         :label="`Purchase Detailed Finalised`"
+                        color="black lighten-1"
                       ></v-checkbox>
                     </v-flex>
                     <v-flex xs9>
@@ -97,10 +98,11 @@
                         readonly
                         v-model="checkbox2"
                         :label="`Delivery Details Finalised`"
+                        color="black lighten-1"
                       ></v-checkbox>
                     </v-flex>
                     <v-flex xs9>
-                      <v-checkbox readonly v-model="checkbox3" :label="`Ready to Finalise Payment`"></v-checkbox>
+                      <v-checkbox readonly v-model="checkbox3" :label="`Ready to Finalise Payment`" color="black lighten-1"></v-checkbox>
                     </v-flex>
                   </v-layout>
                 </v-container>
@@ -216,7 +218,9 @@ export default {
             name: "home"
           });
         }
-      });
+      }).catch((error) => {
+        this.error = error.response;
+      })
     }
       this.id = this.$store.state.user.id;
       try {

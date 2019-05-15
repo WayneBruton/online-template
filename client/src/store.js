@@ -19,15 +19,12 @@ export default new Vuex.Store({
       businessName: "Boredom Busters",
       businessEmail: "boredombusters.co.za",
       color: "#305f72"
-      // color: "red"
-      // color: "blue"
-      // color: "cyan"
-      // color: "whitesmoke"
-      // color: "green"
-      // color: "orange"
-      // color: "pink"
-      // color: "purple"
-      // color: "darkgrey"
+    },
+    administration: {
+      admin_user: null,
+      admin_token: null,
+      admin_username: null,
+      isAdminUserLoggedIn: false
     }
   },
   mutations: {
@@ -56,6 +53,21 @@ export default new Vuex.Store({
     },
     readyToInvoice(state, yes) {
       state.readyToInvoice = yes;
+    },
+    // *************** ADMIN FUNCTIONS **************
+    setAdminToken(state, admin_token) {
+      state.administration.admin_token = admin_token;
+      if (admin_token) {
+        state.administration.isAdminUserLoggedIn = true;
+      } else {
+        state.administration.isAdminUserLoggedIn = false;
+      }
+    },
+    setAdminUser(state, admin_user) {
+      state.administration.admin_user = admin_user;
+    },
+    setAdminUserName(state, admin_username) {
+      state.administration.admin_username = admin_username;
     }
   },
   actions: {
@@ -79,6 +91,17 @@ export default new Vuex.Store({
     },
     readyToInvoice({ commit }, yes) {
       commit("readyToInvoice", yes);
+    },
+    // ********* ADMIN FUNCTIONS************
+    setAdminToken({ commit }, admin_token) {
+      commit("setAdminToken", admin_token);
+    },
+    setAdminUser({ commit }, admin_user) {
+      commit("setAdminUser", admin_user);
+    },
+    setAdminUserName({ commit }, admin_username) {
+      commit("setAdminUserName", admin_username);
     }
+
   }
 });

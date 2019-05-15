@@ -11,6 +11,13 @@ import ShoppingCart from "./views/ShoppingCart.vue";
 import Contact from "./views/Contact.vue";
 import PaymentSuccessful from "./views/PaymentSuccessfull.vue";
 import ResetPassword from "./views/ResetPassword.vue";
+import Faq from "./views/Faq.vue";
+
+import Dashboard from "./views/adminViews/Dashboard.vue";
+import AdminLogin from "./views/adminViews/AdminLogin.vue";
+import AdminResetPassword from "./views/adminViews/AdminResetPassword.vue";
+import AddAdminUser from "./views/adminViews/AddAdminUser.vue";
+import AddProduct from "./views/adminViews/AddProduct.vue";
 
 Vue.use(Router);
 
@@ -72,6 +79,37 @@ export default new Router({
       path: "/resetPassword/:reset",
       name: "resetPassword",
       component: ResetPassword
+    },
+    {
+      path: "/faq",
+      name: "faq",
+      component: Faq
+    },
+    // **********ADMIN ROUTES*************
+    {
+      path: "/administration/dashboard",
+      name: "dashboard",
+      component: Dashboard
+    },
+    {
+      path: "/administration/adminLogin",
+      name: "adminLogin",
+      component: AdminLogin
+    },
+    {
+      path: "/administration/adminresetpassword/:reset",
+      name: "adminresetpassword",
+      component: AdminResetPassword
+    },
+    {
+      path: "/administration/AddAdminUser",
+      name: "addadminuser",
+      component: AddAdminUser
+    },
+    {
+      path: "/administration/addproduct",
+      name: "addproduct",
+      component: AddProduct
     }
   ]
 });

@@ -28,13 +28,15 @@ const storeRoutes = require("../server/routes/store"),
   checkoutRoutes = require("../server/routes/checkoutRoutes"),
   finalizePaymentRoutes = require("../server/routes/finalizePaymentRoutes"),
   contactRoutes = require("../server/routes/contactRoutes"),
-  authenticationRoutes = require("../server/routes/authenticationRoutes")
+  authenticationRoutes = require("../server/routes/authenticationRoutes"),
+  adminRoutes = require("../server/routes/adminRoutes")
 
 app.use(storeRoutes);
 app.use(contactRoutes);
 app.use(checkoutRoutes);
 app.use(finalizePaymentRoutes);
 app.use(authenticationRoutes);
+app.use(adminRoutes);
 app.use(authorizationRoutes);
 
 app.listen(port, () => {

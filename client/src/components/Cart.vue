@@ -6,52 +6,48 @@
         <v-divider class="mx-2" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-icon large color="green lighten-1">shopping_cart</v-icon>
+        <!-- ============================================ -->
+        <v-dialog v-model="deleteDialog" persistent max-width="500">
+          <!-- <v-btn slot="activator" color="primary" dark>Open Dialog</v-btn> -->
+          <v-card>
+            <v-card-title class="headline">{{ formTitle }}</v-card-title>
+            <v-card-text>If you delete in error, you can simply click "Return to Shop" and correct your mistake.</v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="black darken-1" flat @click.native="deleteDialog = false">Cancel</v-btn>
+              <v-btn color="black darken-1" flat @click.native="deleteItem">Delete</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+        <!-- ================================================ -->
         <v-dialog v-model="dialog" max-width="500px">
           <v-card>
             <v-card-title>
               <span class="headline">{{ formTitle }}</span>
-              <br />
+              <br>
             </v-card-title>
             <v-card-text>
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-flex xs12 sm6 md4>
-                    <v-text-field
-                      readonly
-                      v-model="editedItem.product_name"
-                      label="Product name"
-                    >
-                    </v-text-field>
+                    <v-text-field readonly v-model="editedItem.product_name" label="Product name"></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm6 md4>
-                    <v-text-field
-                      v-model="editedItem.quantity"
-                      label="Quantity"
-                      @change="minVal"
-                    >
-                    </v-text-field>
+                    <v-text-field v-model="editedItem.quantity" label="Quantity" @change="minVal"></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm6 md4>
-                    <v-text-field
-                      readonly
-                      v-model="editedItem.price"
-                      label="Price"
-                    ></v-text-field>
+                    <v-text-field readonly v-model="editedItem.price" label="Price"></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm6 md4>
-                    <v-text-field
-                      readonly
-                      v-model="editedItem.total"
-                      label="Total"
-                    ></v-text-field>
+                    <v-text-field readonly v-model="editedItem.total" label="Total"></v-text-field>
                   </v-flex>
                 </v-layout>
               </v-container>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" flat @click="close">Cancel</v-btn>
-              <v-btn color="blue darken-1" flat @click="save">Save</v-btn>
+              <v-btn color="black darken-1" flat @click="close">Cancel</v-btn>
+              <v-btn color="black darken-1" flat @click="save">Save</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -65,34 +61,18 @@
         <template v-slot:items="props">
           <td>{{ props.item.product_name }}</td>
           <td class="text-xs-right">{{ props.item.quantity }}</td>
-          <td class="text-xs-right">
-            R {{ parseFloat(props.item.price).toFixed(2) }}
-          </td>
-          <td class="text-xs-right">
-            R {{ parseFloat(props.item.total).toFixed(2) }}
-          </td>
+          <td class="text-xs-right">R {{ parseFloat(props.item.price).toFixed(2) }}</td>
+          <td class="text-xs-right">R {{ parseFloat(props.item.total).toFixed(2) }}</td>
           <td class="justify-center layout px-0 mt-4">
             <v-tooltip left>
               <template v-slot:activator="{ on }">
-                <v-icon
-                  class="edit"
-                  small
-                  v-on="on"
-                  @click="editItem(props.item)"
-                  >edit
-                </v-icon>
+                <v-icon class="edit" small v-on="on" @click="editItem(props.item)">edit</v-icon>
               </template>
               <span>Edit Quantity</span>
             </v-tooltip>
             <v-tooltip right>
               <template v-slot:activator="{ on }">
-                <v-icon
-                  class="delete"
-                  small
-                  v-on="on"
-                  @click="deleteItem(props.item)"
-                  >delete
-                </v-icon>
+                <v-icon class="delete" small v-on="on" @click="deleteItemA(props.item)">delete</v-icon>
               </template>
               <span>Delete Item</span>
             </v-tooltip>
@@ -113,19 +93,19 @@
             <h4>Product Totals</h4>
             <h4>R {{ parseFloat(total).toFixed(2) }}</h4>
           </div>
-          <hr />
+          <hr>
           <div class="items">
             <h4>Delivery</h4>
             <h4>R {{ parseFloat(delivery).toFixed(2) }}</h4>
           </div>
-          <hr />
-          <hr />
+          <hr>
+          <hr>
           <div class="items">
             <h3>Net</h3>
             <h3>R {{ parseFloat(net).toFixed(2) }}</h3>
           </div>
-          <hr />
-          <hr />
+          <hr>
+          <hr>
         </div>
       </v-card>
     </div>
@@ -139,6 +119,8 @@ export default {
       e1: 0,
       shoppingCart: [],
       dialog: false,
+      deleteDialog: false,
+      deleteIndex: 0,
       headers: [
         {
           text: "Product Name",
@@ -156,7 +138,7 @@ export default {
           sortable: false
         }
       ],
-      pagination : {'sortBy': 'quantity', 'descending': false, 'rowsPerPage': 5},
+      pagination: { sortBy: "quantity", descending: false, rowsPerPage: 5 },
       editedIndex: -1,
       editedItem: {
         product_name: "",
@@ -177,7 +159,7 @@ export default {
   },
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "New Item" : "Change Quantity";
+      return this.editedIndex === -1 ? "Delete Item" : "Change Quantity";
     }
   },
   watch: {
@@ -206,8 +188,8 @@ export default {
     editItem(item) {
       this.editedIndex = this.shoppingCart.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      this.editedItem.price = parseFloat(this.editedItem.price).toFixed(2)
-      this.editedItem.total = parseFloat(this.editedItem.total).toFixed(2)
+      this.editedItem.price = parseFloat(this.editedItem.price).toFixed(2);
+      this.editedItem.total = parseFloat(this.editedItem.total).toFixed(2);
       this.dialog = true;
     },
     minVal() {
@@ -218,10 +200,13 @@ export default {
         parseFloat(this.editedItem.price) *
         parseFloat(this.editedItem.quantity);
     },
-    deleteItem(item) {
-      const index = this.shoppingCart.indexOf(item);
-      confirm("Are you sure you want to delete this item?") &&
-        this.shoppingCart.splice(index, 1);
+    deleteItemA(item) {
+      this.deleteIndex = this.shoppingCart.indexOf(item);
+      this.deleteDialog = true;
+    },
+    deleteItem() {
+      const index = this.deleteIndex;
+      this.shoppingCart.splice(index, 1);
       this.$store.dispatch("addToShoppingCart", this.shoppingCart);
       let addItems = this.shoppingCart.reduce((prev, current) => {
         return (prev = prev + parseInt(current.quantity));
@@ -241,6 +226,7 @@ export default {
         this.delivery = totalAdded * 0.1;
       }
       this.net = parseFloat(this.total) + parseFloat(this.delivery);
+      this.deleteDialog = false;
     },
     close() {
       this.dialog = false;
@@ -264,8 +250,9 @@ export default {
       if (!this.shoppingCart.length) {
         this.$router.push("showroom");
       }
-      // this.shoppingCart = this.$store.state.shoppingCart;
-      // customSort(this.shoppingCart, 'quantity', true)
+
+      // customSort(items, index, isDescending);
+
       //Update Summary
       let totalAdded = this.shoppingCart.reduce((prev, el) => {
         return (prev = prev + parseFloat(el.total));
@@ -279,18 +266,18 @@ export default {
       this.net = parseFloat(this.total) + parseFloat(this.delivery);
     },
     customSort(items, index, isDescending) {
-          items.sort((a, b) => {
-              if (index === 'quantity') {
-                  if (isDescending) {
-                      return b.quantity - a.quantity;
-                  } else {
-                      return a.quantity - b.quantity;
-                  }
-              }
-          });
-
-          return items;
+      items.sort((a, b) => {
+        if (index === "quantity") {
+          if (isDescending) {
+            return b.quantity - a.quantity;
+          } else {
+            return a.quantity - b.quantity;
+          }
         }
+      });
+
+      return items;
+    }
   }
 };
 </script>

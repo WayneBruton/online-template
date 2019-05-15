@@ -59,6 +59,18 @@ create table cart (
     FOREIGN KEY (invoice_number) REFERENCES invoices(id)
 );
 
+-- ADMIN
+
+create table admin_users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name varchar(100) not null,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    user_password VARCHAR(255) NOT NULL,
+    createdAt TIMESTAMP DEFAULT NOW(),
+    resettoken varchar(20),
+    resetexpiry TIMESTAMP DEFAULT NOW()
+);
+
 
 
 insert into products (product_name,product_description, price, product_image ) values 

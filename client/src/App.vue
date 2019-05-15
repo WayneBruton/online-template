@@ -39,7 +39,7 @@ export default {
         user: this.$store.state.user.id,
         email: this.$store.state.user.email
       }).then(response => {
-        console.log("response is", response.data.success);
+        // console.log("response is", response.data.success);
         if (!response.data.success) {
           this.$store.dispatch("setToken", null);
           this.$store.dispatch("setUser", null);
@@ -51,7 +51,7 @@ export default {
         }
       });
     }
-    console.log(window.localStorage)
+    // console.log(window.localStorage)
   },
   methods: {}
 };

@@ -3,7 +3,7 @@
     <v-layout class="panelWidth" xs3 column justify-space-around>
       <v-flex xs3 offset-xs0>
         <!-- <img src="../assets/heart_PNG51352.png" alt="LOGO" style="width: 10%; "> -->
-        <panel title="Login">
+        <panel title="Admin Login">
           <form name="tab-tracker-form" autocomplete="off">
             <v-flex sm12 offset-xs0>
               <v-text-field label="Email" placeholder="email" v-model="email"></v-text-field>
@@ -19,11 +19,11 @@
           <br>
           <v-alert class="danger-alert" v-if="error" :value="true" type="error">{{ error }}</v-alert>
           <v-alert class="danger-alert" v-if="success" :value="true" type="success">{{ success }}</v-alert>
-          <v-btn :class="this.$store.state.siteSetup.color" @click="login" dark>Login</v-btn>
+          <v-btn :class="this.$store.state.siteSetup.color" @click="loginAdmin" dark>Login</v-btn>
           <v-btn
             v-if="this.error === 'Password is incorrect. Please try again'"
             :class="this.$store.state.siteSetup.color"
-            @click="resetPasswordLink"
+            @click="resetAdminPasswordLink"
             dark
           >Reset Password</v-btn>
         </panel>
@@ -34,12 +34,12 @@
 
 <script>
 import Panel from "@/components/Panel.vue";
-import AuthorizationService from "../services/AuthorizationServices";
+import AdminService from "@/services/AdminServices";
 export default {
   data() {
     return {
-      email: "waynebruton@icloud.com",
-      password: "123456",
+      email: "wayne@eccentrictoad.com",
+      password: "1234567",
       error: null,
       success: null,
       required: value => !!value || "Required."
@@ -49,35 +49,36 @@ export default {
     Panel
   },
   methods: {
-    async login() {
+    async loginAdmin() {
       try {
-        const response = await AuthorizationService.login({
+        const response = await AdminService.loginAdmin({
           email: this.email,
           user_password: this.password
         });
         if (response.data.error) {
           this.error = response.data.error;
         } else {
-          this.$store.dispatch("setToken", response.data.token);
-          this.$store.dispatch("setUser", response.data.user);
-          this.$store.dispatch("setUserName", response.data.username);
-          let targetId = this.$store.state.selectedProduct;
-          if (targetId !== null) {
-            this.$router.push({
-              name: "product",
-              params: { productId: targetId }
-            });
-          } else {
-            this.$router.push({ name: "showroom" });
+           this.$store.dispatch("setAdminToken", response.data.admin_token);
+          this.$store.dispatch("setAdminUser", response.data.admin_user);
+          this.$store.dispatch(
+            "setAdminUserName",
+            response.data.admin_username
+          );
+          this.$store.dispatch("setToken", null);
+          this.$store.dispatch("setUser", null);
+          this.$store.dispatch("setUserName", null);
+            this.$router.push({ name: "dashboard" });
           }
-        }
+       
       } catch (error) {
         this.error = error.response.data.error;
       }
-    },
-    async resetPasswordLink() {
-      await AuthorizationService.resetPasswordLink({ email: this.email })
+    }
+    ,
+    async resetAdminPasswordLink() {
+      await AdminService.resetAdminPasswordLink({ email: this.email })
         .then(response => {
+          console.log(response)
           this.success = response.data;
           this.error = null;
           setTimeout(() => {

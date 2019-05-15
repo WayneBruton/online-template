@@ -1,8 +1,8 @@
 <template>
-  <v-toolbar :class="this.$store.state.siteSetup.color" fixed dark>
-    <v-btn fab dark small color="red" class="logo" @click="clearCart">
+  <v-toolbar id="toolbarHeader" :class="this.$store.state.siteSetup.color" fixed dark>
+    <!-- <v-btn fab dark small color="red" class="logo" @click="clearCart">
       <v-icon dark>favorite</v-icon>
-    </v-btn>
+    </v-btn> -->
     <img
       src="../assets/heart_PNG51352.png"
       alt="LOGO"
@@ -19,10 +19,10 @@
     <v-spacer></v-spacer>
 
     <v-toolbar-title
-      v-if="$store.state.isUserLoggedIn"
+      v-if="$store.state.isUserLoggedIn || $store.state.administration.isAdminUserLoggedIn"
       style="color: whitesmoke;"
       class="mr-1 mt-1 notHamburger"
-      >Hello {{ $store.state.username }}
+      >Hello {{ $store.state.username || $store.state.administration.admin_username }}
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-flex md3>
@@ -85,6 +85,11 @@
         >Contact
       </v-btn>
     </v-toolbar-items>
+    <v-toolbar-items>
+      <v-btn class="#305f72 notHamburger" dark flat :to="{ name: 'faq' }"
+        >FAQ<v-icon dark left color="red darken-2" class="ml-2">help</v-icon>
+      </v-btn>
+    </v-toolbar-items>
     <v-menu full-width right dark offsetY min-width="100%">
       <template v-slot:activator="{ on }">
         <v-btn dark icon v-on="on">
@@ -116,6 +121,10 @@
         <v-divider></v-divider>
         <v-list-tile :to="{ name: 'contact' }">
           <v-list-tile-title>Contact</v-list-tile-title>
+        </v-list-tile>
+        <v-divider></v-divider>
+        <v-list-tile :to="{ name: 'faq' }">
+          <v-list-tile-title>faq<v-icon dark left color="red darken-2">help</v-icon></v-list-tile-title>
         </v-list-tile>
       </v-list>
     </v-menu>
@@ -156,6 +165,9 @@ export default {
 };
 </script>
 <style scoped>
+#toolbarHeader {
+  z-index: 15;
+}
 .home {
   cursor: pointer;
 }
