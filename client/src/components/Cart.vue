@@ -11,11 +11,21 @@
           <!-- <v-btn slot="activator" color="primary" dark>Open Dialog</v-btn> -->
           <v-card>
             <v-card-title class="headline">{{ formTitle }}</v-card-title>
-            <v-card-text>If you delete in error, you can simply click "Return to Shop" and correct your mistake.</v-card-text>
+            <v-card-text
+              >If you delete in error, you can simply click "Return to Shop" and
+              correct your mistake.</v-card-text
+            >
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="black darken-1" flat @click.native="deleteDialog = false">Cancel</v-btn>
-              <v-btn color="black darken-1" flat @click.native="deleteItem">Delete</v-btn>
+              <v-btn
+                color="black darken-1"
+                flat
+                @click.native="deleteDialog = false"
+                >Cancel
+              </v-btn>
+              <v-btn color="black darken-1" flat @click.native="deleteItem"
+                >Delete
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -24,22 +34,42 @@
           <v-card>
             <v-card-title>
               <span class="headline">{{ formTitle }}</span>
-              <br>
+              <br />
             </v-card-title>
             <v-card-text>
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-flex xs12 sm6 md4>
-                    <v-text-field readonly v-model="editedItem.product_name" label="Product name"></v-text-field>
+                    <v-text-field
+                      readonly
+                      v-model="editedItem.product_name"
+                      label="Product name"
+                    >
+                    </v-text-field>
                   </v-flex>
                   <v-flex xs12 sm6 md4>
-                    <v-text-field v-model="editedItem.quantity" label="Quantity" @change="minVal"></v-text-field>
+                    <v-text-field
+                      v-model="editedItem.quantity"
+                      label="Quantity"
+                      @change="minVal"
+                    >
+                    </v-text-field>
                   </v-flex>
                   <v-flex xs12 sm6 md4>
-                    <v-text-field readonly v-model="editedItem.price" label="Price"></v-text-field>
+                    <v-text-field
+                      readonly
+                      v-model="editedItem.price"
+                      label="Price"
+                    >
+                    </v-text-field>
                   </v-flex>
                   <v-flex xs12 sm6 md4>
-                    <v-text-field readonly v-model="editedItem.total" label="Total"></v-text-field>
+                    <v-text-field
+                      readonly
+                      v-model="editedItem.total"
+                      label="Total"
+                    >
+                    </v-text-field>
                   </v-flex>
                 </v-layout>
               </v-container>
@@ -61,18 +91,36 @@
         <template v-slot:items="props">
           <td>{{ props.item.product_name }}</td>
           <td class="text-xs-right">{{ props.item.quantity }}</td>
-          <td class="text-xs-right">R {{ parseFloat(props.item.price).toFixed(2) }}</td>
-          <td class="text-xs-right">R {{ parseFloat(props.item.total).toFixed(2) }}</td>
+          <td class="text-xs-right">
+            R
+            {{ parseFloat(props.item.price).toFixed(2) }}
+          </td>
+          <td class="text-xs-right">
+            R
+            {{ parseFloat(props.item.total).toFixed(2) }}
+          </td>
           <td class="justify-center layout px-0 mt-4">
             <v-tooltip left>
               <template v-slot:activator="{ on }">
-                <v-icon class="edit" small v-on="on" @click="editItem(props.item)">edit</v-icon>
+                <v-icon
+                  class="edit"
+                  small
+                  v-on="on"
+                  @click="editItem(props.item)"
+                  >edit
+                </v-icon>
               </template>
               <span>Edit Quantity</span>
             </v-tooltip>
             <v-tooltip right>
               <template v-slot:activator="{ on }">
-                <v-icon class="delete" small v-on="on" @click="deleteItemA(props.item)">delete</v-icon>
+                <v-icon
+                  class="delete"
+                  small
+                  v-on="on"
+                  @click="deleteItemA(props.item)"
+                  >delete
+                </v-icon>
               </template>
               <span>Delete Item</span>
             </v-tooltip>
@@ -93,19 +141,19 @@
             <h4>Product Totals</h4>
             <h4>R {{ parseFloat(total).toFixed(2) }}</h4>
           </div>
-          <hr>
+          <hr />
           <div class="items">
             <h4>Delivery</h4>
             <h4>R {{ parseFloat(delivery).toFixed(2) }}</h4>
           </div>
-          <hr>
-          <hr>
+          <hr />
+          <hr />
           <div class="items">
             <h3>Net</h3>
             <h3>R {{ parseFloat(net).toFixed(2) }}</h3>
           </div>
-          <hr>
-          <hr>
+          <hr />
+          <hr />
         </div>
       </v-card>
     </div>

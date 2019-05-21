@@ -2,7 +2,7 @@
   <div id="app">
     <v-app>
       <PageHeader/>
-      <v-container fluid>
+      <v-container>
         <transition name="router-anime">
           <div id="nav">
             <!-- <router-link to="/">Home</router-link>|
@@ -51,7 +51,6 @@ export default {
         }
       });
     }
-    // console.log(window.localStorage)
   },
   methods: {}
 };
@@ -69,23 +68,29 @@ export default {
 // h1,
 // h2, h3, h4, h5, h6 {
 //     font-family: 'MyFont1', sans-serif;
+//     // font-family: 'Syncopate', sans-serif;
 //     text-shadow: 4px 4px 4px #aaa;
 //     font-size: 220%;
 // }
 // .myTitle, .notHamburger {
 //    font-family: 'MyFont1', sans-serif;
+//   //  font-family: 'Syncopate', sans-serif;
 //     font-size: 220%;
-
 // }
+
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Syncopate', sans-serif;
+font-family: 'Open Sans', sans-serif;
+  // font-family: "Avenir", Helvetica, Arial, sans-serif;
+  // font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  // background-color: red;
 }
 #nav {
-  padding: 35px;
+  padding: 30px 0;
   a {
     font-weight: bold;
     color: #2c3e50;
@@ -130,4 +135,10 @@ export default {
     opacity: 1;
   }
 }
+@media screen and (max-width: 768px) {
+  #app {
+    width: 100vw;
+  }
+}
+
 </style>

@@ -53,7 +53,7 @@
     <v-toolbar-items>
       <v-btn
         class="#305f72 notHamburger"
-        v-if="!$store.state.isUserLoggedIn"
+        v-if="!$store.state.isUserLoggedIn && !$store.state.administration.isAdminUserLoggedIn"
         dark
         flat
         :to="{ name: 'login' }"
@@ -63,7 +63,7 @@
     <v-toolbar-items>
       <v-btn
         class="#305f72 notHamburger"
-        v-if="!$store.state.isUserLoggedIn"
+        v-if="!$store.state.isUserLoggedIn && !$store.state.administration.isAdminUserLoggedIn"
         dark
         flat
         :to="{ name: 'register' }"
@@ -73,7 +73,7 @@
     <v-toolbar-items>
       <v-btn
         class="#305f72 notHamburger"
-        v-if="$store.state.isUserLoggedIn"
+        v-if="$store.state.isUserLoggedIn || $store.state.administration.isAdminUserLoggedIn"
         dark
         flat
         @click="logout"
@@ -96,26 +96,33 @@
           <v-toolbar-side-icon class="hamburger"></v-toolbar-side-icon>
         </v-btn>
       </template>
+      <!-- CONTROLS FOR LOGIN & SIGNUP ON MOBILE MENU -->
       <v-list class="hamburger">
         <v-list-tile :to="{ name: 'showroom' }">
           <v-list-tile-title>Shop</v-list-tile-title>
         </v-list-tile>
         <v-divider></v-divider>
         <v-list-tile
-          v-if="!$store.state.isUserLoggedIn"
+      
+          :to="{ name: 'about' }"
+        >
+          <v-list-tile-title>About</v-list-tile-title>
+        </v-list-tile>
+        <v-list-tile
+          v-if="!$store.state.isUserLoggedIn && !$store.state.administration.isAdminUserLoggedIn"
           :to="{ name: 'login' }"
         >
           <v-list-tile-title>Login</v-list-tile-title>
         </v-list-tile>
         <v-divider v-if="!$store.state.isUserLoggedIn"></v-divider>
         <v-list-tile
-          v-if="!$store.state.isUserLoggedIn"
+          v-if="!$store.state.isUserLoggedIn && !$store.state.administration.isAdminUserLoggedIn"
           :to="{ name: 'register' }"
         >
           <v-list-tile-title>Signup</v-list-tile-title>
         </v-list-tile>
         <v-divider></v-divider>
-        <v-list-tile v-if="$store.state.isUserLoggedIn" @click="logout">
+        <v-list-tile v-if="$store.state.isUserLoggedIn || $store.state.administration.isAdminUserLoggedIn" @click="logout">
           <v-list-tile-title>Logout</v-list-tile-title>
         </v-list-tile>
         <v-divider></v-divider>
@@ -147,6 +154,10 @@ export default {
       this.$store.dispatch("setUser", null);
       this.$store.dispatch("setSelectedProduct", null);
       this.$store.dispatch("setUserName", null);
+
+      this.$store.dispatch("setAdminToken", null);
+      this.$store.dispatch("setAdminUser", null);
+      this.$store.dispatch("setAdminUserName", null);
       this.$router.push({
         name: "home"
       });
@@ -190,6 +201,9 @@ export default {
 }
 
 @media screen and (max-width: 820px) {
+  #toolbarHeader {
+    width: 100%;
+  }
   .hamburger {
     display: flex;
     flex-direction: column;

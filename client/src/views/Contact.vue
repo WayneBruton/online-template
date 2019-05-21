@@ -1,7 +1,9 @@
 <template>
   <v-container>
     <v-layout class="panelWidth" xs3 column justify-space-around>
-      <v-flex xs3 offset-xs0>
+      <v-flex xs12 sm8 md4 offset-xs0>
+        <img src="../assets/heart_PNG51352.png" alt="LOGO" style="width: 10%; ">
+
         <panel title="Contact Us">
           <form name="tab-tracker-form" autocomplete="off">
             <v-flex sm12 offset-xs0>
@@ -63,14 +65,14 @@ export default {
   },
   data: () => ({
     valid: false,
-    firstname: "Wayne",
-    lastname: "Bruton",
-    email: "wayne@eccentrictoad.com",
+    firstname: "",
+    lastname: "",
+    email: "",
     emailRules: [
       v => !!v || "E-mail is required",
       v => /.+@.+/.test(v) || "E-mail must be valid"
     ],
-    message: "THIS IS A TEST MESSAGE",
+    message: "",
     error: null,
     success: null,
     required: value => !!value || "Required."

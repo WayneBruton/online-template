@@ -70,7 +70,7 @@ router.post("/createCart", (req, res) => {
   let mysql = `Insert into cart (product_id, user_id, price, quantity, total, vat, netAmount) values `;
   let mysql2 = "";
 
-  finalCart.forEach((el, index) => {
+  finalCart.forEach((el, index) => { 
     if (index === finalCart.length - 1) {
       mysql2 =
         mysql2 +

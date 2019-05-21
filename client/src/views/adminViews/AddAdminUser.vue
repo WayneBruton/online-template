@@ -22,7 +22,7 @@
                 @blur="checkAdminEmail"
                 autocomplete="false"
               ></v-text-field>
-              <br>
+              <br />
               <v-text-field
                 label="Password"
                 type="password"
@@ -41,21 +41,31 @@
               ></v-text-field>
             </v-flex>
           </form>
-          <br>
-          <v-alert class="danger-alert" v-if="error" :value="true" type="error">{{ error }}</v-alert>
-        <v-alert class="danger-alert" v-if="success" :value="true" type="success">{{ success }}</v-alert>
+          <br />
+          <v-alert class="danger-alert" v-if="error" :value="true" type="error"
+            >{{ error }}
+          </v-alert>
+          <v-alert
+            class="danger-alert"
+            v-if="success"
+            :value="true"
+            type="success"
+            >{{ success }}
+          </v-alert>
           <v-btn
             id="btn2"
             :class="this.$store.state.siteSetup.color"
             @click="register"
             dark
-          >Add Admin</v-btn>
+            >Add Admin</v-btn
+          >
           <v-btn
             id="btn2"
             :class="this.$store.state.siteSetup.color"
             @click="dashboard"
             dark
-          >Return to Dashboard</v-btn>
+            >Return to Dashboard</v-btn
+          >
         </panel>
       </v-flex>
     </v-layout>
@@ -71,13 +81,13 @@ export default {
   },
   data: () => ({
     valid: false,
-    firstname: "Wayne",
+    firstname: "",
     nameRules: [
       v => !!v || "Name is required",
       v => v.length <= 10 || "Name must be less than 10 characters"
     ],
-    email: "wayne@eccentrictoad.com",
-    password: "1234567",
+    email: "",
+    password: "",
     emailRules: [
       v => !!v || "E-mail is required",
       v => /.+@.+/.test(v) || "E-mail must be valid"
@@ -86,7 +96,7 @@ export default {
       v => !!v || "Password is required",
       v => v.length <= 10 || "Name must be less than 10 characters"
     ],
-    passwordRepeat: "1234567",
+    passwordRepeat: "",
     error: null,
     success: null,
     required: value => !!value || "Required."
@@ -116,7 +126,7 @@ export default {
               this.$router.push({
                 name: "adminLogin"
               });
-            }, 5000);
+            }, 800);
           }
         })
         .catch(error => {
@@ -131,7 +141,7 @@ export default {
         this.$router.push({
           name: "adminLogin"
         });
-      }, 5000);
+      }, 800);
     }
   },
   methods: {
@@ -154,7 +164,7 @@ export default {
           this.$router.push("dashboard");
         }
       } catch (response) {
-        this.error = response.data.error
+        this.error = response.data.error;
       }
     },
     async checkAdminEmail() {
@@ -171,7 +181,7 @@ export default {
       }
     },
     dashboard() {
-      this.$router.push('dashboard')
+      this.$router.push("dashboard");
     }
   }
 };

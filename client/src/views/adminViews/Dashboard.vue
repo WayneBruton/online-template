@@ -2,32 +2,43 @@
   <v-container>
     <panel title="Dashboard">
       <v-layout class="panelWidth" xs9 column>
-        <br>
+        <br />
         <v-btn @click="addProduct" dark>Add Stock Item</v-btn>
-        <br>
-        <hr>
-        <br>
-        <v-btn dark>Edit Stock Item</v-btn>
-        <br>
-        <hr>
-        <br>
-        <v-btn dark>Add FAQ</v-btn>
-        <br>
-        <hr>
-        <br>
-        <v-btn dark>Edit FAQ</v-btn>
-        <br>
-        <hr>
-        <br>
-        <v-btn dark>Store Stats</v-btn>
-        <br>
-        <hr>
-        <br>
+        <br />
+        <hr />
+        <br />
+        <v-btn @click="editProduct" dark>Edit Stock Item</v-btn>
+        <br />
+        <hr />
+        <br />
+        <v-btn @click="customers" dark>Customers</v-btn>
+        <br />
+        <hr />
+        <br />
+        <v-btn @click="addFAQ" dark>Add FAQ</v-btn>
+        <br />
+        <hr />
+        <br />
+        <v-btn @click="editFAQ" dark>Delete FAQ</v-btn>
+        <br />
+        <hr />
+        <br />
+        <v-btn @click="stats" dark>Store Stats</v-btn>
+        <br />
+        <hr />
+        <br />
         <v-btn @click="addAdminUser" class="black" dark>Add Admin User</v-btn>
-        <br>
-
-        <v-alert class="danger-alert" v-if="error" :value="true" type="error">{{ error }}</v-alert>
-        <v-alert class="danger-alert" v-if="success" :value="true" type="success">{{ success }}</v-alert>
+        <br />
+        <v-alert class="danger-alert" v-if="error" :value="true" type="error"
+          >{{ error }}
+        </v-alert>
+        <v-alert
+          class="danger-alert"
+          v-if="success"
+          :value="true"
+          type="success"
+          >{{ success }}
+        </v-alert>
       </v-layout>
     </panel>
   </v-container>
@@ -71,7 +82,7 @@ export default {
               this.$router.push({
                 name: "adminLogin"
               });
-            }, 5000);
+            }, 800);
           }
         })
         .catch(error => {
@@ -86,7 +97,7 @@ export default {
         this.$router.push({
           name: "adminLogin"
         });
-      }, 5000);
+      }, 800);
     }
   },
   methods: {
@@ -95,7 +106,21 @@ export default {
     },
     addProduct() {
       this.$router.push("addproduct");
-      console.log('CLICKED')
+    },
+    editProduct() {
+      this.$router.push("editproduct");
+    },
+    addFAQ() {
+      this.$router.push("addFaq");
+    },
+    editFAQ() {
+      this.$router.push("editFaq");
+    },
+    stats() {
+      this.$router.push("stats");
+    },
+    customers() {
+      this.$router.push("customers");
     }
   }
 };

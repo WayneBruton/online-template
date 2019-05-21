@@ -29,13 +29,18 @@ const storeRoutes = require("../server/routes/store"),
   finalizePaymentRoutes = require("../server/routes/finalizePaymentRoutes"),
   contactRoutes = require("../server/routes/contactRoutes"),
   authenticationRoutes = require("../server/routes/authenticationRoutes"),
-  adminRoutes = require("../server/routes/adminRoutes")
+  adminRoutes = require("../server/routes/adminRoutes"),
+  databaseRoutes = require("../server/routes/databaseRoutes"),
+  statsRoutes = require("../server/routes/statsRoutes");
 
 app.use(storeRoutes);
 app.use(contactRoutes);
 app.use(checkoutRoutes);
 app.use(finalizePaymentRoutes);
 app.use(authenticationRoutes);
+app.use(databaseRoutes);
+app.use(statsRoutes);
+
 app.use(adminRoutes);
 app.use(authorizationRoutes);
 

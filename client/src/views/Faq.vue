@@ -1,14 +1,14 @@
 <template>
   <v-container>
-    <img src="../assets/heart_PNG51352.png" alt="LOGO" style="width: 10%; ">
+    <img src="../assets/heart_PNG51352.png" alt="LOGO" style="width: 10%;" />
     <v-flex xs12>
       <h1>Frequently asked questions</h1>
       <v-container>
         <v-layout row wrap>
-          <v-flex xs12>
+          <v-flex xs12 sm8 md8 offset-md2>
             <v-expansion-panel popout dark>
               <v-expansion-panel-content v-for="(item, i) in items" :key="i">
-                <div slot="header">{{ item.heading }}</div>
+                <div slot="header">{{ item.title }}</div>
                 <v-card>
                   <v-card-text>{{ item.description }}</v-card-text>
                 </v-card>
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import AdminService from "@/services/AdminServices";
 export default {
   data() {
     return {
@@ -53,10 +54,18 @@ export default {
         }
       ]
     };
+  },
+  async mounted() {
+    try {
+      let response = await AdminService.getFaq();
+      console.log(response.data);
+      this.items = response.data;
+      // this.success = response.data.success;
+    } catch (err) {
+      console.log(err);
+    }
   }
 };
 </script>
 
-
-<style scoped>
-</style>
+<style scoped></style>

@@ -5,7 +5,7 @@ const pool = require("./connection");
 const IMG_URL = process.env.IMG_URL
 
 router.get("/products", (req, res) => {
-  let mysql = "select * from products where available = true";
+  let mysql = "select * from products where available = true order by product_name";
   pool.getConnection(function(err, connection) {
     if (err) {
       connection.release();
@@ -23,7 +23,7 @@ router.get("/products", (req, res) => {
     });
     connection.release();
   });
-});
+}); 
 
 router.get("/product/:id", (req, res) => {
   let id = req.params.id;
@@ -39,6 +39,25 @@ router.get("/product/:id", (req, res) => {
         el.product_image = `${IMG_URL}${el.product_image}`;
         el.price = el.price.toFixed(2);
       });
+      res.json(result);
+    });
+    connection.release();
+  });
+});
+
+
+router.post("/productViews", (req, res) => {
+  console.log(req.body)
+  let id = req.body.id
+  let views = req.body.views
+  let mysql = `update products set views = ${views} where id = ${id}`;
+  pool.getConnection(function(err, connection) {
+    if (err) {
+      connection.release();
+      resizeBy.send("Error with connection");
+    }
+    connection.query(mysql, function(error, result) {
+      if (error) throw error;
       res.json(result);
     });
     connection.release();

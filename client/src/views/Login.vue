@@ -1,31 +1,44 @@
 <template>
-  <v-container>
-    <v-layout class="panelWidth" xs3 column justify-space-around>
-      <v-flex xs3 offset-xs0>
-        <!-- <img src="../assets/heart_PNG51352.png" alt="LOGO" style="width: 10%; "> -->
+  <v-container fluid>
+    <v-layout class="panelWidth" xs12 sm8 md4 column justify-space-around>
+      <v-flex xs12 sm8 md4 offset-xs0>
+        <img src="../assets/heart_PNG51352.png" alt="LOGO" style="width: 10%; ">
         <panel title="Login">
           <form name="tab-tracker-form" autocomplete="off">
-            <v-flex sm12 offset-xs0>
-              <v-text-field label="Email" placeholder="email" v-model="email"></v-text-field>
-              <br>
+            <v-flex xs12 sm8 md4>
+              <v-text-field label="Email" placeholder="email" v-model="email">
+              </v-text-field>
+              <br />
               <v-text-field
                 label="Password"
                 type="password"
                 placeholder="password"
                 v-model="password"
+
               ></v-text-field>
             </v-flex>
           </form>
-          <br>
-          <v-alert class="danger-alert" v-if="error" :value="true" type="error">{{ error }}</v-alert>
-          <v-alert class="danger-alert" v-if="success" :value="true" type="success">{{ success }}</v-alert>
-          <v-btn :class="this.$store.state.siteSetup.color" @click="login" dark>Login</v-btn>
+          <br />
+          <v-alert class="danger-alert" v-if="error" :value="true" type="error"
+            >{{ error }}
+          </v-alert>
+          <v-alert
+            class="danger-alert"
+            v-if="success"
+            :value="true"
+            type="success"
+            >{{ success }}
+          </v-alert>
+          <v-btn :class="this.$store.state.siteSetup.color" @click="login" dark
+            >Login
+          </v-btn>
           <v-btn
             v-if="this.error === 'Password is incorrect. Please try again'"
             :class="this.$store.state.siteSetup.color"
             @click="resetPasswordLink"
             dark
-          >Reset Password</v-btn>
+            >Reset Password
+          </v-btn>
         </panel>
       </v-flex>
     </v-layout>
@@ -38,8 +51,8 @@ import AuthorizationService from "../services/AuthorizationServices";
 export default {
   data() {
     return {
-      email: "waynebruton@icloud.com",
-      password: "123456",
+      email: "",
+      password: "",
       error: null,
       success: null,
       required: value => !!value || "Required."

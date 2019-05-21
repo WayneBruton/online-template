@@ -5,8 +5,8 @@ const jwt = require("jsonwebtoken");
 const Joi = require("joi");
 const bcrypt = require("bcryptjs");
 
-// const saltRounds = process.env.SALT_ROUNDS;
-const saltRounds = 10
+const saltRounds = process.env.SALT_ROUNDS;
+// const saltRounds = 10
 
 router.use((req, res, next) => {
   const schema = {

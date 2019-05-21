@@ -2,7 +2,7 @@
   <!-- <v-footer class="pa-3" dark> -->
   <v-footer :class="this.$store.state.siteSetup.color" dark>
     <v-spacer></v-spacer>
-    <v-flex md3>
+    <v-flex md3 xs12>
       <div>
         Created and maintained by:
         <strong>

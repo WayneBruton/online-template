@@ -1,17 +1,17 @@
 <template>
   <v-container>
     <v-layout column justify-space-around>
-      <v-flex md3>
+      <v-flex xs12 sm8 md3>
         <img src="../assets/heart_PNG51352.png" alt="LOGO" style="width: 7%;" />
       </v-flex>
-      <v-flex md3>
+      <v-flex xs12 sm8 md3>
         <h1>Product</h1>
       </v-flex>
     </v-layout>
     <v-layout row justify-center>
       <v-flex ml-2 mt-4 mr-2 sm6 offset-sm6 elevation-3>
         <v-card>
-          <v-img :src="items.product_image" aspect-ratio="2.75" />
+          <v-img :src="items.product_image" aspect-ratio="1.55" />
           <v-card-title primary-title>
             <div>
               <h3 class="headline mb-0">{{ items.product_name }}</h3>
@@ -115,6 +115,7 @@ export default {
     if (id !== null) {
       this.items = (await StoreService.product(id)).data[0];
       this.items.quantity = 1;
+      this.items.views = this.items.views + 1;
       if (this.$store.state.user) {
         this.items.user_id = this.$store.state.user.id;
       }
@@ -123,6 +124,16 @@ export default {
     } else {
       this.$router.push({ name: "showroom" });
     }
+    try {
+      let response = await StoreService.productViews({
+        id: this.items.id,
+        views: this.items.views
+      });
+      console.log(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+    console.log(this.items);
   },
   methods: {
     add() {

@@ -1,8 +1,56 @@
 <template>
   <v-container>
-    <h1>Add Product</h1>
+    <h1>Edit Product</h1>
     <v-layout xs9 column offset-xs2>
-      <v-layout class="panelWidth" xs3 column justify-space-around>
+      <v-layout
+        class="panelWidth"
+        xs3
+        column
+        justify-space-around
+        v-if="!display"
+      >
+        <panel title="Products for sale">
+           <panel title="Search">
+          <div style="display: flex;">
+            <v-text-field placeholder="Search" v-model="search"></v-text-field>
+            <v-btn flat color="black" dark @click="clearSearch">
+              <v-icon>clear</v-icon>
+            </v-btn>
+          </div>
+        </panel>
+          <v-flex>
+            <v-layout row wrap>
+              <v-switch
+                v-model="switch1"
+                @change="show"
+                :label="
+                  `${switch1 ? 'Products on sale' : 'Discontinued products'}`
+                "
+              ></v-switch>
+            </v-layout>
+            <panel title="products">
+              <ul>
+                <li :id="item.id" v-for="(item, i) in displayData" :key="i">
+                  <div class="liItem">{{ item.product_name }}</div>
+                  <div class="liItem">R {{ item.price }}</div>
+                  <div class="liItem">
+                    <v-btn :id="item.id" dark @click="editItem($event)">
+                      <v-icon small>edit</v-icon>Edit
+                    </v-btn>
+                  </div>
+                </li>
+              </ul>
+            </panel>
+          </v-flex>
+        </panel>
+      </v-layout>
+      <v-layout
+        class="panelWidth"
+        xs3
+        column
+        justify-space-around
+        v-if="display"
+      >
         <v-flex xs3 offset-xs0>
           <v-flex>
             <v-alert class="danger-alert" :value="true" type="info"
@@ -30,23 +78,13 @@
                 <br />
                 <v-text-field
                   label="Product Name"
-                  :rules="productRules"
                   placeholder="Product Name"
                   v-model="productName"
-                  @blur="checkProductName"
+                  :rules="productRules"
+                  required
+                  readonly
                   autocomplete="false"
                 ></v-text-field>
-
-                <!-- <v-text-field
-                label="Email"
-                hint="Enter your email"
-                :rules="emailRules"
-                placeholder="email"
-                v-model="email"
-                @blur="checkEmail"
-                autocomplete="false"
-                ></v-text-field>-->
-
                 <v-text-field
                   label="Weight"
                   type="number"
@@ -115,18 +153,18 @@
                 <v-btn
                   :class="this.$store.state.siteSetup.color"
                   dark
-                  @click="insertProduct"
+                  @click="editProduct"
                   >Post
                 </v-btn>
                 <v-btn
-                  id="btn2"
                   :class="this.$store.state.siteSetup.color"
-                  @click="dashboard"
                   dark
-                  >Return to Dashboard
+                  @click="cancelEdit"
+                  >Cancel
                 </v-btn>
               </form>
             </v-flex>
+
             <v-alert
               class="danger-alert"
               v-if="error"
@@ -144,6 +182,13 @@
           </v-flex>
         </v-flex>
       </v-layout>
+      <v-btn
+        id="btn2"
+        :class="this.$store.state.siteSetup.color"
+        @click="dashboard"
+        dark
+        >Return to Dashboard
+      </v-btn>
     </v-layout>
   </v-container>
 </template>
@@ -152,23 +197,40 @@
 import CustomCropper from "@/components/importedComponents/CustomCropper";
 import AdminService from "@/services/AdminServices";
 import Panel from "@/components/Panel";
-// const fs = require("fs");
 export default {
   data() {
     return {
+      mainData: [],
+      displayData: [],
+      display: false,
+      switch1: true,
+      editID: null,
+      search: [],
+      selectedItem: {
+        available: null,
+        id: null,
+        price: null,
+        product_breadth: null,
+        product_description: null,
+        product_height: null,
+        product_image: null,
+        product_length: null,
+        product_name: null,
+        product_weight: null
+      },
       productImg: null,
       success: null,
       error: null,
-      available: true,
-      productName: "",
+      available: null,
+      productName: "Test Product",
       productRules: [v => !!v || "This is required"],
-      weight: "",
-      height: "",
-      breadth: "",
-      length: "",
-      price: "",
+      weight: 0,
+      height: 0,
+      breadth: 0,
+      length: 0,
+      price: 199.61,
       description:
-        "",
+        "This is an awesome product that does amazing things for kids intellectuall growth.",
       file: null,
       useCroppingTool: false,
       useCroppingToolLabel: "Use Cropping Tool",
@@ -176,7 +238,22 @@ export default {
       fileType: null
     };
   },
+  watch: {
+    search: function() {
+      if (this.search !== "") {
+        let query = this.search.toLowerCase();
+        this.displayData = this.displayData.filter(el => {
+          return el.product_name.toLowerCase().indexOf(query) >= 0;
+        });
+      } else {
+        this.show()
+        // this.displayData = this.totalItems;
+      }
+    }
+  },
   async mounted() {
+    this.mainData = [];
+    this.displayData = [];
     if (
       this.$store.state.administration.admin_token !== null &&
       this.$store.state.administration.isAdminUserLoggedIn !== false &&
@@ -218,6 +295,8 @@ export default {
         });
       }, 800);
     }
+
+    this.getDataToEdit();
   },
   components: {
     CustomCropper,
@@ -227,23 +306,53 @@ export default {
     dashboard() {
       this.$router.push("dashboard");
     },
-    async checkProductName() {
-      console.log("BLUR");
+    clearSearch() {
+      this.search = "";
+    },
+    async getDataToEdit() {
       try {
-        let response = await AdminService.checkProductName({
-          productName: this.productName
-        });
-        console.log(response);
-        if (response) {
-          this.error = "This name has already been used!";
-          this.productName = "";
-          setTimeout(() => {
-            this.error = null;
-          }, 1500);
-        }
+        const response = await AdminService.productsToEdit();
+        this.mainData = response.data;
+        // console.log(response.data)
+        this.show();
       } catch (err) {
         console.log(err);
       }
+    },
+    show() {
+      this.displayData = [];
+      if (this.switch1) {
+        this.displayData = this.mainData.filter(el => {
+          return el.available === 1 || el.available === true;
+        });
+      } else {
+        this.displayData = this.mainData.filter(el => {
+          return el.available === 0 || el.available === false;
+        });
+      }
+    },
+    editItem(event) {
+      let id = event.currentTarget.id;
+
+      // console.log(id);
+      this.display = true;
+      let selected = this.mainData.find(el => {
+        return el.id == id;
+      });
+      this.productName = selected.product_name;
+      this.weight = selected.product_weight;
+      this.height = selected.product_height;
+      this.breadth = selected.product_breadth;
+      this.length = selected.product_length;
+      this.price = selected.price;
+      this.description = selected.product_description;
+      this.available = selected.available;
+      this.editID = selected.id;
+      this.imgSRC = selected.product_image;
+    },
+    cancelEdit() {
+      this.display = !this.display;
+      this.editID = null;
     },
     // updateImage: function(param1) {
     //   // this.productImg = param1;
@@ -265,9 +374,9 @@ export default {
       }
       try {
         let response = await AdminService.insertProductImage(formData);
-        console.log(response.data.File.filename);
+        // console.log(response.data.File.filename);
         this.productImg = response.data.File.filename;
-        console.log("File name (imageSrc is:", response.data.imageFile);
+        // console.log("File name (imageSrc is:", response.data.imageFile);
         this.imgSRC = response.data.imageFile;
         this.fileType = response.data.fileType;
       } catch (err) {
@@ -276,8 +385,8 @@ export default {
       }
     },
 
-    async insertProduct() {
-      if (this.productImg === null || this.imgSRC === null) {
+    async editProduct() {
+      if (this.imgSRC === null) {
         return (this.error = "Product needs an image");
       } else if (this.productName === "") {
         return (this.error = "Product needs a name");
@@ -296,7 +405,8 @@ export default {
       }
       this.error = null;
       try {
-        let response = await AdminService.insertProduct({
+        let response = await AdminService.editProduct({
+          id: this.editID,
           fileType: this.fileType,
           productImg: this.productImg,
           product_name: this.productName,
@@ -308,12 +418,50 @@ export default {
           price: parseFloat(this.price).toFixed(2),
           isAvailable: this.available
         });
+        // BUSY HERE
+        let foundIndex = null;
+        let test = this.mainData.find((el, index) => {
+          // console.log("Index Number::", index);
+          if (el.id === this.editID) {
+            foundIndex = index;
+            return el.id === this.editID;
+          }
+        });
+
+        let editedItem = {
+          available: this.available,
+          id: this.editID,
+          price: parseFloat(this.price).toFixed(2),
+          product_breadth: this.breadth,
+          product_description: this.description,
+          product_height: this.height,
+          product_image: this.imgSRC,
+          product_length: this.length,
+          product_name: this.productName,
+          product_weight: this.weight
+        };
+        console.log("Index Number of changed Item", test);
+        this.mainData.splice(foundIndex, 1);
+        this.mainData.push(editedItem);
+        this.mainData = this.mainData.sort(function(a, b) {
+          if (a.product_name < b.product_name) {
+            return -1;
+          }
+          if (a.product_name > b.product_name) {
+            return 1;
+          }
+          return 0;
+        });
         console.log(response.data.success);
         this.success = response.data.success;
         setTimeout(() => {
+          // this.getDataToEdit();
+          this.clearSearch()
+          this.show();
           this.success = "";
-          this.$router.push("dashboard");
-        }, 2000);
+          this.display = false;
+        }, 1250);
+        this.show();
       } catch (err) {
         console.log(err);
       }
@@ -334,6 +482,19 @@ export default {
 </script>
 
 <style scoped>
+li {
+  display: flex;
+  justify-content: space-evenly;
+}
+li:hover {
+  background-color: lightgrey;
+}
+.liItem {
+  width: 30%;
+  display: flex;
+  align-items: center;
+  align-content: center;
+}
 @media screen and (max-width: 768px) {
 }
 </style>

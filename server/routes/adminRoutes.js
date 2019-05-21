@@ -12,8 +12,8 @@ const cryptr = new Cryptr(process.env.ENCRYPTION_SECRET);
 
 let jwtSecret = process.env.JWT_SECRET;
 
-// const saltRounds = process.env.SALT_ROUNDS;
-const saltRounds = 10
+const saltRounds = process.env.SALT_ROUNDS;
+// const saltRounds = 10
 
 let validateAddAdmin = (req, res, next) => {
     const schema = {
@@ -104,14 +104,14 @@ let validateAddAdmin = (req, res, next) => {
           res.send({ error: "There is an error, try again later" })
         };
         res.json(result);
-        console.log(result)
+        // console.log(result)
       });
       connection.release();
     });
   });
 
   router.put("/loginAdmin", (req, res) => {
-      console.log(req.body)
+      // console.log(req.body)
     let user_password = req.body.user_password;
 
     let mysql = `select * from admin_users where email = '${req.body.email}'`;
@@ -134,7 +134,7 @@ let validateAddAdmin = (req, res, next) => {
               id: result[0].id,
               email: result[0].email
             };
-            console.log("RESULT IS::",result)
+            // console.log("RESULT IS::",result)
             bcrypt.compare(user_password, hash, function(err, response) {
               if (response) {
                 res.json({
@@ -156,7 +156,7 @@ let validateAddAdmin = (req, res, next) => {
   });
 
   let checktoken = (req, res, next) => {
-      console.log(req.body)
+      // console.log(req.body)
     let token = req.body.token;
     jwt.verify(token, jwtSecret, (err, decoded) => {
       if (err) {
@@ -254,7 +254,7 @@ let validateAddAdmin = (req, res, next) => {
   });
 
   router.get("/resetAdminPasswordStart/:uri", (req, res) => {
-      console.log(req.params)
+      // console.log(req.params)
     let uri = req.params.uri
     uri = JSON.parse(cryptr.decrypt(uri))
     res.send({uri: uri})
@@ -262,7 +262,7 @@ let validateAddAdmin = (req, res, next) => {
   
   router.put("/resetAdminPassword", (req, res) => {
     let user_password = req.body.password
-    console.log(req.body)
+    // console.log(req.body)
     if (req.body.password !== req.body.passwordRepeat) {
       return res.send({issues: "Passwords do not match"})
     }

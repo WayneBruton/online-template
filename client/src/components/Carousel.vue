@@ -1,8 +1,8 @@
 <template>
   <!-- <v-carousel class="mt-5" dark hide-delimiters hide-controls> -->
-  <v-carousel class="mt-5" dark interval="3000">
+  <v-carousel class="mt-5" dark interval="3000" xs6>
     <v-carousel-item v-for="(item, i) in items" :key="i">
-      <v-img :src="item.src" style="height: 100%;width: 100%;" />
+      <v-img :src="item.src" style="height: 100%; width: 100%;" />
     </v-carousel-item>
   </v-carousel>
 </template>

@@ -32,6 +32,7 @@ create table products (
     items_in_stock int not null default 999,
     product_image varchar(100),
     available   boolean default true,
+    views int not null default 0,
     created_at TIMESTAMP DEFAULT NOW()
 );
 
@@ -70,6 +71,16 @@ create table admin_users (
     resettoken varchar(20),
     resetexpiry TIMESTAMP DEFAULT NOW()
 );
+
+
+create table faq (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title varchar(100) not null,
+    description text NOT NULL,
+    createdAt TIMESTAMP DEFAULT NOW()
+);
+
+
 
 
 

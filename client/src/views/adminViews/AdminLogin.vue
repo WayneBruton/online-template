@@ -38,8 +38,8 @@ import AdminService from "@/services/AdminServices";
 export default {
   data() {
     return {
-      email: "wayne@eccentrictoad.com",
-      password: "1234567",
+      email: "",
+      password: "",
       error: null,
       success: null,
       required: value => !!value || "Required."

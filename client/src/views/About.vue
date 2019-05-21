@@ -1,18 +1,18 @@
 <template>
   <v-container>
     <img src="../assets/heart_PNG51352.png" alt="LOGO" style="width: 10%; " />
-    <v-flex md12>
-      <h1>About</h1>
+    <v-flex xs12 sm12 md12>
+      <h1>About</h1> 
       <div style="display: flex; flex-direction: column;">
-        <div style="display: flex; width: 100%; justify-content: flex-start;">
-          <div style="width:50%; padding: 20px; display: flex; margin: 20px; ">
+        <div class="topHalf" style="display: flex; width: 100%; justify-content: flex-start;">
+          <div class="topHalfContent" style="width:100%; padding: 20px; margin: 20px; ">
             <img
               src="../assets/image27.jpeg"
               alt="LOGO"
               style="width:100%; height: 100%; border: 1px solid black; border-radius: 7px;"
             />
           </div>
-          <div style="width:50%; text-align: center;">
+          <div  class="topHalfContent" style="width:100%; text-align: center;">
             <br />
             <br />
             <p>
@@ -104,8 +104,8 @@
           <br />
           <hr />
           <br />
-          <div style="display: flex;">
-            <div style="width:50%; text-align: center;">
+          <div class="topHalf" style="display: flex;">
+            <div class="topHalfContent" style="width:100%; text-align: center;">
               <br />
               <br />
               <br />
@@ -140,7 +140,7 @@
                 child’s face.
               </p>
             </div>
-            <div style="width:50%; padding: 20px; display: flex; margin: 20px;">
+            <div class="topHalfContent" style="width:100%; padding: 20px;   margin: 20px; ">
               <img
                 src="../assets/image37.jpeg"
                 alt="LOGO"
@@ -158,4 +158,19 @@
 p {
   font-size: 115%;
 }
+@media screen and (max-width: 820px) {
+  .topHalf {
+    flex-direction: column;
+  }
+  .topHalfContent {
+    /* display: flex; */
+    /* justify-content: center; */
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+    margin-right: 20px;
+    
+  }
+}
+
 </style>

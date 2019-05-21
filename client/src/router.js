@@ -18,6 +18,11 @@ import AdminLogin from "./views/adminViews/AdminLogin.vue";
 import AdminResetPassword from "./views/adminViews/AdminResetPassword.vue";
 import AddAdminUser from "./views/adminViews/AddAdminUser.vue";
 import AddProduct from "./views/adminViews/AddProduct.vue";
+import EditProduct from "./views/adminViews/EditProduct.vue";
+import AddFAQ from "./views/adminViews/AddFaq.vue";
+import EditFAQ from "./views/adminViews/EditFaq.vue";
+import Stats from "./views/adminViews/Stats.vue";
+import Customers from "./views/adminViews/Customers.vue";
 
 Vue.use(Router);
 
@@ -28,7 +33,7 @@ export default new Router({
     {
       path: "/",
       name: "home",
-      component: Home 
+      component: Home
     },
     {
       path: "/showroom",
@@ -57,17 +62,17 @@ export default new Router({
     },
     {
       path: "/register",
-      name: "register", 
+      name: "register",
       component: Register
     },
     {
       path: "/shoppingCart",
-      name: "shoppingCart", 
+      name: "shoppingCart",
       component: ShoppingCart
     },
     {
       path: "/contact",
-      name: "contact", 
+      name: "contact",
       component: Contact
     },
     {
@@ -110,6 +115,31 @@ export default new Router({
       path: "/administration/addproduct",
       name: "addproduct",
       component: AddProduct
+    },
+    {
+      path: "/administration/editproduct",
+      name: "editproduct",
+      component: EditProduct
+    },
+    {
+      path: "/administration/addFaq",
+      name: "addFaq",
+      component: AddFAQ
+    },
+    {
+      path: "/administration/editFaq",
+      name: "editFaq",
+      component: EditFAQ
+    },
+    {
+      path: "/administration/stats",
+      name: "stats",
+      component: Stats
+    },
+    {
+      path: "/administration/customers",
+      name: "customers",
+      component: Customers
     }
   ]
 });

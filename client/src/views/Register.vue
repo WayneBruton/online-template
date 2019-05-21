@@ -2,7 +2,7 @@
   <v-container>
     <v-layout class="panelWidth" xs3 column justify-space-around>
       <v-flex xs3 offset-xs0>
-        <!-- <img src="../assets/heart_PNG51352.png" alt="LOGO" style="width: 10%; "> -->
+        <img src="../assets/heart_PNG51352.png" alt="LOGO" style="width: 10%; ">
         <panel title="Register">
           <form name="tab-tracker-form" autocomplete="off">
             <v-flex xs12 offset-xs0>
@@ -11,7 +11,7 @@
                 :rules="nameRules"
                 placeholder="First Name"
                 v-model="firstname"
-                autocomplete="false"
+                autocomplete="off"
               ></v-text-field>
               <v-text-field
                 label="Last Name"
@@ -19,7 +19,7 @@
                 :rules="nameRules"
                 placeholder="Last name"
                 v-model="lastname"
-                autocomplete="false"
+                autocomplete="off"
               ></v-text-field>
               <v-text-field
                 label="Email"
@@ -28,13 +28,14 @@
                 placeholder="email"
                 v-model="email"
                 @blur="checkEmail"
-                autocomplete="false"
+                autocomplete="off"
               ></v-text-field>
               <br />
               <v-text-field
                 label="Password"
                 type="password"
                 :rules="passwordRules"
+                browser-autocomplete="new-password"
                 placeholder="password"
                 v-model="password"
                 autocomplete="false"
@@ -74,14 +75,14 @@ export default {
   },
   data: () => ({
     valid: false,
-    firstname: "Wayne",
-    lastname: "Bruton",
+    firstname: "",
+    lastname: "",
     nameRules: [
       v => !!v || "Name is required",
       v => v.length <= 10 || "Name must be less than 10 characters"
     ],
-    email: "wayne@eccentrictoad.com",
-    password: "1234567",
+    email: "",
+    password: "",
     emailRules: [
       v => !!v || "E-mail is required",
       v => /.+@.+/.test(v) || "E-mail must be valid"
@@ -90,7 +91,7 @@ export default {
       v => !!v || "Password is required",
       v => v.length <= 10 || "Name must be less than 10 characters"
     ],
-    passwordRepeat: "1234567",
+    passwordRepeat: "",
     error: null,
     required: value => !!value || "Required."
   }),
