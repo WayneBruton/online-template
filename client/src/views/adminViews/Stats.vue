@@ -39,7 +39,7 @@
             <div class="chart-wrapper">
               <chart :options="chartOptionsBar"></chart>
             </div>
-            <div style="display: flex; flex-direction: column; width: 30%;">
+            <div style="display: flex; flex-direction: column; width: 35%;">
               <br>
            <br>
      

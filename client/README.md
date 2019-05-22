@@ -1,4 +1,4 @@
-# client
+# myapp-cli3
 
 ## Project setup
 ```

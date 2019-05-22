@@ -281,7 +281,8 @@ export default {
           console.log(error);
         });
       // let successURL = "https://www.boredombusters.co.za/paymentSuccessful/";
-      let successURL = "http://localhost:8080/paymentSuccessful/";
+      // let successURL = `http://localhost:8080/paymentSuccessful/`;
+      let successURL = `${process.env.VUE_APP_SUCCESSURL}paymentSuccessful/`;
       await AuthorizationService.successURL({
         finalAmount: this.finalAmount,
         id: this.$store.state.user.id

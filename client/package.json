@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "myapp-cli3",
   "version": "0.1.0",
   "private": true,
   "scripts": {
