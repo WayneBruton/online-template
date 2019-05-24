@@ -26,10 +26,10 @@ router.use((req, res, next) => {
         break;
       case "user_password":
         res.status(400).send({
-          error: `Password must have the following: <br>
-          1. One lower case letter <br>
-          2. One upper case letter <br>
-          3. One number <br>
+          error: `Password must have the following: 
+          1. One lower case letter 
+          2. One upper case letter 
+          3. One number 
           4. More than 5 characters and less than 32`
         });
         break;

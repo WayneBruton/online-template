@@ -9,29 +9,42 @@
               @click="mostViewedProduct"
               :class="this.$store.state.siteSetup.color"
               dark
-            >Top 10 viewed products</v-btn>
-            <br>
+              >Top 10 viewed products
+            </v-btn>
+            <br />
             <v-btn
               @click="salesByMonth"
               :class="this.$store.state.siteSetup.color"
               dark
-            >Sales by Month / Year</v-btn>
+              >Sales by Month / Year
+            </v-btn>
             <v-btn
               @click="salesByProduct"
               :class="this.$store.state.siteSetup.color"
               dark
-            >Top 10 product Sales</v-btn>
+              >Top 10 product Sales
+            </v-btn>
             <v-btn
               @click="salesByArea"
               :class="this.$store.state.siteSetup.color"
               dark
-            >Sales by City / Province</v-btn>
-            <br>
-            <br>
+              >Sales by City / Province
+            </v-btn>
+            <br />
+            <br />
           </v-flex>
-          <br>
-          <v-alert class="danger-alert" v-if="error" :value="true" type="error">{{ error }}</v-alert>
-          <v-alert class="danger-alert" v-if="success" :value="true" type="success">{{ success }}</v-alert>
+          <br />
+          <v-alert class="danger-alert" v-if="error" :value="true" type="error">
+            {{ error }}
+          </v-alert>
+          <v-alert
+            class="danger-alert"
+            v-if="success"
+            :value="true"
+            type="success"
+          >
+            {{ success }}
+          </v-alert>
           <!-- <v-btn :class="this.$store.state.siteSetup.color" @click="addFaq" dark>Post</v-btn> -->
         </panel>
         <panel title="Most Viewed Products" v-if="topViewProductsChartDisplay">
@@ -40,18 +53,19 @@
               <chart :options="chartOptionsBar"></chart>
             </div>
             <div style="display: flex; flex-direction: column; width: 35%;">
-              <br>
-           <br>
-     
+              <br />
+              <br />
               <h4>Legend</h4>
-              <br>
+              <br />
               <div style="displey: flex; justify-content: flex-start;">
-              <ul>
-                <li v-for="item in myData" :key="item.id">
-                  <div style=" width: 50%; display: flex;">{{ item.id }}</div>
-                  <div style=" width: 50%; display: flex;">{{ item.product_name }}</div>
-                </li>
-              </ul>
+                <ul>
+                  <li v-for="item in myData" :key="item.id">
+                    <div style=" width: 50%; display: flex;">{{ item.id }}</div>
+                    <div style=" width: 50%; display: flex;">
+                      {{ item.product_name }}
+                    </div>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
@@ -61,7 +75,10 @@
             <chart :options="chartOptionsLine"></chart>
           </div>
         </panel>
-        <panel title="Sales By Product" v-if="salesByProductLast12MonthsDisplay">
+        <panel
+          title="Sales By Product"
+          v-if="salesByProductLast12MonthsDisplay"
+        >
           <div class="chart-wrapper">
             <chart :options="chartOptionsBar"></chart>
           </div>
@@ -71,9 +88,11 @@
             <chart :options="chartOptionsBar"></chart>
           </div>
         </panel>
-        <br>
+        <br />
       </v-flex>
-      <v-btn @click="returnTo" :class="this.$store.state.siteSetup.color" dark>Dashboard</v-btn>
+      <v-btn @click="returnTo" :class="this.$store.state.siteSetup.color" dark
+        >Dashboard
+      </v-btn>
     </v-layout>
   </v-container>
 </template>
@@ -81,6 +100,7 @@
 <script>
 import Panel from "@/components/Panel.vue";
 import AdminService from "@/services/AdminServices";
+import Authenticate from "../../functions/authenticateAdmin";
 export default {
   data() {
     return {
@@ -91,7 +111,7 @@ export default {
       SalesByCityDisplay: false,
       chartOptionsBar: {
         xAxis: {
-          data: ["Q1", "Q2", "Q3", "Q4"] 
+          data: ["Q1", "Q2", "Q3", "Q4"]
         },
         yAxis: {
           type: "value"
@@ -175,8 +195,20 @@ export default {
   components: {
     Panel
   },
-  mounted() {
+  async mounted() {
     this.myData = [];
+    this.Authenticate = Authenticate.authenticate;
+    this.Authenticate();
+    if (!this.$store.state.administration.isAdminUserLoggedIn) {
+      this.error =
+        "Your session has expired! You will be redirected to the login page.";
+      setTimeout(() => {
+        this.error = null;
+        this.$router.push({
+          name: "adminLogin"
+        });
+      }, 800);
+    }
   },
   methods: {
     returnTo() {
@@ -187,25 +219,20 @@ export default {
       try {
         let response = await AdminService.productViews();
         this.myData = response.data;
-        console.log(response.data);
       } catch (err) {
         console.log(err);
       }
-      console.log("myData", this.myData);
       this.chartOptionsBar.title.text = "Top 10 most viewed products";
       this.chartOptionsBar.xAxis.data = []; //this is x axist titles
       this.chartOptionsBar.series[0].data = []; // this is the acual data
-      this.chartOptionsBar.series[0].name = ""
+      this.chartOptionsBar.series[0].name = "";
       this.chartOptionsBar.color = ["green"];
       this.chartOptionsBar.legend.data = [];
       this.myData.forEach(el => {
-
         this.chartOptionsBar.xAxis.data.push(el.id);
         this.chartOptionsBar.series[0].data.push(el.views);
         this.chartOptionsBar.legend.data.push(el.product_name);
       });
-      // console.log(this.chartOptionsBar.legend.data)
-
       this.topViewProductsChartDisplay = true;
       this.salesLast12MonthsDisplay = false;
       this.salesByProductLast12MonthsDisplay = false;
@@ -223,7 +250,7 @@ export default {
       this.salesLast12MonthsDisplay = false;
       this.salesByProductLast12MonthsDisplay = true;
       this.SalesByCityDisplay = false;
-   this.chartOptionsBar.series[0].name = "Product"
+      this.chartOptionsBar.series[0].name = "Product";
       this.chartOptionsBar.xAxis.data = ["Q1", "Q2", "Q3", "Q4"]; //this is x axist titles
       this.chartOptionsBar.series[0].data = [63, 75, 24, 92]; // this is the acual data
 
@@ -235,7 +262,7 @@ export default {
       this.salesLast12MonthsDisplay = false;
       this.salesByProductLast12MonthsDisplay = false;
       this.SalesByCityDisplay = true;
- this.chartOptionsBar.series[0].name = "Area"
+      this.chartOptionsBar.series[0].name = "Area";
       this.chartOptionsBar.xAxis.data = ["WC", "EC", "FS", "KZN", "GTG"]; //this is x axist titles
       this.chartOptionsBar.series[0].data = [63, 75, 24, 92, 111]; // this is the acual data
 

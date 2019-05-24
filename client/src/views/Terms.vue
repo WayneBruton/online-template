@@ -275,7 +275,6 @@ export default {
     this.businessName = this.$store.state.siteSetup.businessName;
     this.email = this.$store.state.siteSetup.businessEmail;
     this.href = this.href + this.email;
-    console.log(this.$store.state.siteSetup)
   }
 };
 </script>

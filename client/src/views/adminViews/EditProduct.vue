@@ -10,14 +10,15 @@
         v-if="!display"
       >
         <panel title="Products for sale">
-           <panel title="Search">
-          <div style="display: flex;">
-            <v-text-field placeholder="Search" v-model="search"></v-text-field>
-            <v-btn flat color="black" dark @click="clearSearch">
-              <v-icon>clear</v-icon>
-            </v-btn>
-          </div>
-        </panel>
+          <panel title="Search">
+            <div style="display: flex;">
+              <v-text-field placeholder="Search" v-model="search">
+              </v-text-field>
+              <v-btn flat color="black" dark @click="clearSearch">
+                <v-icon>clear</v-icon>
+              </v-btn>
+            </div>
+          </panel>
           <v-flex>
             <v-layout row wrap>
               <v-switch
@@ -164,7 +165,6 @@
                 </v-btn>
               </form>
             </v-flex>
-
             <v-alert
               class="danger-alert"
               v-if="error"
@@ -197,6 +197,7 @@
 import CustomCropper from "@/components/importedComponents/CustomCropper";
 import AdminService from "@/services/AdminServices";
 import Panel from "@/components/Panel";
+import Authenticate from "../../functions/authenticateAdmin";
 export default {
   data() {
     return {
@@ -246,7 +247,7 @@ export default {
           return el.product_name.toLowerCase().indexOf(query) >= 0;
         });
       } else {
-        this.show()
+        this.show();
         // this.displayData = this.totalItems;
       }
     }
@@ -254,37 +255,8 @@ export default {
   async mounted() {
     this.mainData = [];
     this.displayData = [];
-    if (
-      this.$store.state.administration.admin_token !== null &&
-      this.$store.state.administration.isAdminUserLoggedIn !== false &&
-      this.$store.state.administration.admin_user !== null &&
-      this.$store.state.administration.admin_username !== null
-    ) {
-      await AdminService.authenticateAdmin({
-        token: this.$store.state.administration.admin_token,
-        user: this.$store.state.administration.admin_user.id,
-        email: this.$store.state.administration.admin_user.email
-      })
-        .then(response => {
-          //   console.log("response is", response.data.success);
-          if (!response.data.success) {
-            this.$store.dispatch("setAdminToken", null);
-            this.$store.dispatch("setAdminUser", null);
-            this.$store.dispatch("setAdminUserName", null);
-            this.error =
-              "Your session has expired! You will be redirected to the login page.";
-            setTimeout(() => {
-              this.error = null;
-              this.$router.push({
-                name: "adminLogin"
-              });
-            }, 800);
-          }
-        })
-        .catch(error => {
-          this.error = error.response;
-        });
-    }
+    this.Authenticate = Authenticate.authenticate;
+    this.Authenticate();
     if (!this.$store.state.administration.isAdminUserLoggedIn) {
       this.error =
         "Your session has expired! You will be redirected to the login page.";
@@ -313,7 +285,6 @@ export default {
       try {
         const response = await AdminService.productsToEdit();
         this.mainData = response.data;
-        // console.log(response.data)
         this.show();
       } catch (err) {
         console.log(err);
@@ -333,8 +304,6 @@ export default {
     },
     editItem(event) {
       let id = event.currentTarget.id;
-
-      // console.log(id);
       this.display = true;
       let selected = this.mainData.find(el => {
         return el.id == id;
@@ -364,19 +333,18 @@ export default {
       formData.append("fileName", this.productImg);
       if (this.productImg) {
         try {
-          let response = await AdminService.removeImageFileName({
+          // let response = await AdminService.removeImageFileName({
+          await AdminService.removeImageFileName({
             fileName: this.productImg
           });
-          console.log(response);
         } catch (err) {
           console.log(err);
         }
       }
       try {
         let response = await AdminService.insertProductImage(formData);
-        // console.log(response.data.File.filename);
         this.productImg = response.data.File.filename;
-        // console.log("File name (imageSrc is:", response.data.imageFile);
+
         this.imgSRC = response.data.imageFile;
         this.fileType = response.data.fileType;
       } catch (err) {
@@ -420,8 +388,8 @@ export default {
         });
         // BUSY HERE
         let foundIndex = null;
-        let test = this.mainData.find((el, index) => {
-          // console.log("Index Number::", index);
+        // let test = this.mainData.find((el, index) => {
+        this.mainData.find((el, index) => {
           if (el.id === this.editID) {
             foundIndex = index;
             return el.id === this.editID;
@@ -440,7 +408,6 @@ export default {
           product_name: this.productName,
           product_weight: this.weight
         };
-        console.log("Index Number of changed Item", test);
         this.mainData.splice(foundIndex, 1);
         this.mainData.push(editedItem);
         this.mainData = this.mainData.sort(function(a, b) {
@@ -452,11 +419,9 @@ export default {
           }
           return 0;
         });
-        console.log(response.data.success);
         this.success = response.data.success;
         setTimeout(() => {
-          // this.getDataToEdit();
-          this.clearSearch()
+          this.clearSearch();
           this.show();
           this.success = "";
           this.display = false;

@@ -8,7 +8,6 @@ export default {
     return Api().get(`/product/${id}`);
   },
   productViews(credentials) {
-    console.log(credentials);
     return Api().post(`/productViews`, credentials);
   }
 };

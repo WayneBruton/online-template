@@ -2,7 +2,11 @@
   <v-container fluid>
     <v-layout class="panelWidth" xs12 sm8 md4 column justify-space-around>
       <v-flex xs12 sm8 md4 offset-xs0>
-        <img src="../assets/heart_PNG51352.png" alt="LOGO" style="width: 10%; ">
+        <img
+          src="../assets/heart_PNG51352.png"
+          alt="LOGO"
+          style="width: 10%; "
+        />
         <panel title="Login">
           <form name="tab-tracker-form" autocomplete="off">
             <v-flex xs12 sm8 md4>
@@ -14,7 +18,6 @@
                 type="password"
                 placeholder="password"
                 v-model="password"
-
               ></v-text-field>
             </v-flex>
           </form>
@@ -109,4 +112,7 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+/* @import "https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css";
+@import "https://cdn.jsdelivr.net/npm/animate.css@3.5.1"; */
+</style>

@@ -78,7 +78,6 @@ export default {
     async resetAdminPasswordLink() {
       await AdminService.resetAdminPasswordLink({ email: this.email })
         .then(response => {
-          console.log(response)
           this.success = response.data;
           this.error = null;
           setTimeout(() => {

@@ -2,19 +2,13 @@
   <v-toolbar id="toolbarHeader" :class="this.$store.state.siteSetup.color" fixed dark>
     <!-- <v-btn fab dark small color="red" class="logo" @click="clearCart">
       <v-icon dark>favorite</v-icon>
-    </v-btn> -->
-    <img
-      src="../assets/heart_PNG51352.png"
-      alt="LOGO"
-      style="width: 4%; heght:4%;"
-    />
+    </v-btn>-->
+    <img src="../assets/heart_PNG51352.png" alt="LOGO" style="width: 4%; heght:4%;">
     <v-toolbar-title class="mr-1 myTitle" @click="navigateTo({ name: 'home' })">
       <span class="home">{{ header }}</span>
     </v-toolbar-title>
     <v-toolbar-items>
-      <v-btn class="#305f72 notHamburger" dark flat :to="{ name: 'showroom' }"
-        >Shop
-      </v-btn>
+      <v-btn class="#305f72 notHamburger" dark flat :to="{ name: 'showroom' }">Shop</v-btn>
     </v-toolbar-items>
     <v-spacer></v-spacer>
 
@@ -22,7 +16,9 @@
       v-if="$store.state.isUserLoggedIn || $store.state.administration.isAdminUserLoggedIn"
       style="color: whitesmoke;"
       class="mr-1 mt-1 notHamburger"
-      >Hello {{ $store.state.username || $store.state.administration.admin_username }}
+    >
+      Hello
+      {{ $store.state.username || $store.state.administration.admin_username }}
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-flex md3>
@@ -40,25 +36,23 @@
                 <div>{{ $store.state.cartCount }}</div>
               </span>
             </template>
-            <v-icon large color="grey lighten-1">shopping_cart</v-icon>
+            <v-icon medium color="grey lighten-1">shopping_cart</v-icon>
           </v-badge>
         </div>
       </v-btn>
     </v-flex>
     <v-toolbar-items>
-      <v-btn class="#305f72 notHamburger" dark flat :to="{ name: 'about' }"
-        >About
-      </v-btn>
+      <v-btn class="#305f72 notHamburger" dark flat :to="{ name: 'about' }">About</v-btn>
     </v-toolbar-items>
     <v-toolbar-items>
       <v-btn
         class="#305f72 notHamburger"
-        v-if="!$store.state.isUserLoggedIn && !$store.state.administration.isAdminUserLoggedIn"
+        v-if="
+          !$store.state.isUserLoggedIn && !$store.state.administration.isAdminUserLoggedIn"
         dark
         flat
         :to="{ name: 'login' }"
-        >Log in
-      </v-btn>
+      >Log in</v-btn>
     </v-toolbar-items>
     <v-toolbar-items>
       <v-btn
@@ -67,27 +61,25 @@
         dark
         flat
         :to="{ name: 'register' }"
-        >Sign Up
-      </v-btn>
+      >Sign Up</v-btn>
     </v-toolbar-items>
     <v-toolbar-items>
       <v-btn
         class="#305f72 notHamburger"
-        v-if="$store.state.isUserLoggedIn || $store.state.administration.isAdminUserLoggedIn"
+        v-if="
+          $store.state.isUserLoggedIn || $store.state.administration.isAdminUserLoggedIn"
         dark
         flat
         @click="logout"
-        >Log Out
-      </v-btn>
+      >Log Out</v-btn>
     </v-toolbar-items>
     <v-toolbar-items>
-      <v-btn class="#305f72 notHamburger" dark flat :to="{ name: 'contact' }"
-        >Contact
-      </v-btn>
+      <v-btn class="#305f72 notHamburger" dark flat :to="{ name: 'contact' }">Contact</v-btn>
     </v-toolbar-items>
     <v-toolbar-items>
-      <v-btn class="#305f72 notHamburger" dark flat :to="{ name: 'faq' }"
-        >FAQ<v-icon dark left color="red darken-2" class="ml-2">help</v-icon>
+      <v-btn class="#305f72 notHamburger" dark flat :to="{ name: 'faq' }">
+        FAQ
+        <v-icon dark left color="red darken-2" class="ml-2">help</v-icon>
       </v-btn>
     </v-toolbar-items>
     <v-menu full-width right dark offsetY min-width="100%">
@@ -102,27 +94,27 @@
           <v-list-tile-title>Shop</v-list-tile-title>
         </v-list-tile>
         <v-divider></v-divider>
-        <v-list-tile
-      
-          :to="{ name: 'about' }"
-        >
+        <v-list-tile :to="{ name: 'about' }">
           <v-list-tile-title>About</v-list-tile-title>
         </v-list-tile>
         <v-list-tile
-          v-if="!$store.state.isUserLoggedIn && !$store.state.administration.isAdminUserLoggedIn"
+          v-if="
+            !$store.state.isUserLoggedIn && !$store.state.administration.isAdminUserLoggedIn"
           :to="{ name: 'login' }"
         >
           <v-list-tile-title>Login</v-list-tile-title>
         </v-list-tile>
         <v-divider v-if="!$store.state.isUserLoggedIn"></v-divider>
         <v-list-tile
-          v-if="!$store.state.isUserLoggedIn && !$store.state.administration.isAdminUserLoggedIn"
-          :to="{ name: 'register' }"
-        >
+          v-if="!$store.state.isUserLoggedIn && !$store.state.administration.isAdminUserLoggedIn" :to="{ name: 'register' }">
           <v-list-tile-title>Signup</v-list-tile-title>
         </v-list-tile>
         <v-divider></v-divider>
-        <v-list-tile v-if="$store.state.isUserLoggedIn || $store.state.administration.isAdminUserLoggedIn" @click="logout">
+        <v-list-tile
+          v-if="
+            $store.state.isUserLoggedIn || $store.state.administration.isAdminUserLoggedIn"
+          @click="logout"
+        >
           <v-list-tile-title>Logout</v-list-tile-title>
         </v-list-tile>
         <v-divider></v-divider>
@@ -131,7 +123,10 @@
         </v-list-tile>
         <v-divider></v-divider>
         <v-list-tile :to="{ name: 'faq' }">
-          <v-list-tile-title>faq<v-icon dark left color="red darken-2">help</v-icon></v-list-tile-title>
+          <v-list-tile-title>
+            faq
+            <v-icon dark left color="red darken-2">help</v-icon>
+          </v-list-tile-title>
         </v-list-tile>
       </v-list>
     </v-menu>
@@ -216,7 +211,7 @@ export default {
     display: none;
   }
   .home {
-    font-size: 80%;
+    font-size: 70%;
   }
 }
 </style>

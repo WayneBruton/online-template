@@ -58,9 +58,7 @@ export default {
   async mounted() {
     try {
       let response = await AdminService.getFaq();
-      console.log(response.data);
       this.items = response.data;
-      // this.success = response.data.success;
     } catch (err) {
       console.log(err);
     }

@@ -56,11 +56,9 @@ export default {
     return Api().get(`customerViews`);
   },
   customerInvoices(credentials) {
-    console.log(credentials);
     return Api().put(`customerInvoices`, credentials);
   },
   adminEditClientDetails(credentials) {
-    console.log(credentials)
     return Api().post(`adminEditClientDetails`, credentials);
   }
 };

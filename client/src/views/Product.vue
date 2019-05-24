@@ -129,11 +129,9 @@ export default {
         id: this.items.id,
         views: this.items.views
       });
-      console.log(response.data);
     } catch (err) {
       console.log(err);
     }
-    console.log(this.items);
   },
   methods: {
     add() {

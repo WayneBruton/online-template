@@ -193,17 +193,9 @@ export default {
         this.nh
       );
       this.clipData = bufferCanvas.toDataURL("image/jpeg", 1);
-
-      // let param1 = bufferCanvas.toDataURL("jpeg",1);
-
-  // console.log(param1)
       let param1 = this.clipData;
-      // let param1 = this.$resImg;
-      // let formData = new FormData()
-      // formData.append("file",formData)
+
       this.$emit("fileUploaded", param1);
-      // console.log(param1)
-      // this.$emit('fileUploaded', formData)
     }
   }
 };

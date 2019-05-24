@@ -1,18 +1,13 @@
 <template>
   <div id="app">
     <v-app>
-      <PageHeader/>
+      <PageHeader />
       <v-container>
-        <transition name="router-anime">
-          <div id="nav">
-            <!-- <router-link to="/">Home</router-link>|
-            <router-link to="/about">About</router-link>-->
-
-            <router-view/>
-          </div>
-        </transition>
+        <div id="nav">
+          <router-view />
+        </div>
       </v-container>
-      <Footer/>
+      <Footer />
     </v-app>
   </div>
 </template>
@@ -39,7 +34,6 @@ export default {
         user: this.$store.state.user.id,
         email: this.$store.state.user.email
       }).then(response => {
-        // console.log("response is", response.data.success);
         if (!response.data.success) {
           this.$store.dispatch("setToken", null);
           this.$store.dispatch("setUser", null);
@@ -57,37 +51,24 @@ export default {
 </script>
 
 <style lang="scss">
-// @font-face {
-//     font-family: "MyFont1";
-//     src: url('../src/assets/balloonxbdbtextrabold.ttf') format("truetype");
-// }
-// @font-face {
-//     font-family: "MyFont2";
-//     src: url('../src/assets/balonxb.ttf') format("truetype");
-// }
-// h1,
-// h2, h3, h4, h5, h6 {
-//     font-family: 'MyFont1', sans-serif;
-//     // font-family: 'Syncopate', sans-serif;
-//     text-shadow: 4px 4px 4px #aaa;
-//     font-size: 220%;
-// }
-// .myTitle, .notHamburger {
-//    font-family: 'MyFont1', sans-serif;
-//   //  font-family: 'Syncopate', sans-serif;
-//     font-size: 220%;
-// }
+@font-face {
+  font-family: "MyFont1";
+  src: url("../src/assets/balloonxbdbtextrabold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "MyFont2";
+  src: url("../src/assets/balonxb.ttf") format("truetype");
+}
 
 #app {
-  font-family: 'Syncopate', sans-serif;
-font-family: 'Open Sans', sans-serif;
+  font-family: "Syncopate", sans-serif;
+  font-family: "Open Sans", sans-serif;
   // font-family: "Avenir", Helvetica, Arial, sans-serif;
   // font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  // background-color: red;
 }
 #nav {
   padding: 30px 0;
@@ -99,6 +80,24 @@ font-family: 'Open Sans', sans-serif;
     }
   }
 }
+
+h1,
+h2,
+h3,
+h5,
+h6 {
+  // font-family: 'MyFont1', sans-serif;
+  font-family: "Syncopate", sans-serif;
+  text-shadow: 4px 4px 4px #aaa;
+  font-size: 180%;
+}
+.myTitle,
+.notHamburger {
+  //  font-family: 'MyFont1', sans-serif;
+  font-family: "Syncopate", sans-serif;
+  font-size: 100%;
+}
+
 .danger-alert {
   font-weight: bold;
   color: red;
@@ -108,13 +107,13 @@ font-family: 'Open Sans', sans-serif;
   align-self: center;
 }
 .router-anime-enter-active {
-  animation: coming 0.8s;
+  animation: coming 0.9s;
   animation-delay: 0.2s;
   opacity: 0;
 }
-// .router-anime-leave-active {
-//   animation: going 1s;
-// }
+.router-anime-leave-active {
+  animation: going 0.4s;
+}
 
 @keyframes going {
   from {
@@ -127,7 +126,7 @@ font-family: 'Open Sans', sans-serif;
 }
 @keyframes coming {
   from {
-    transform: translateY(-30px);
+    transform: translateY(-10px);
     opacity: 0;
   }
   to {
@@ -135,10 +134,10 @@ font-family: 'Open Sans', sans-serif;
     opacity: 1;
   }
 }
+
 @media screen and (max-width: 768px) {
   #app {
     width: 100vw;
   }
 }
-
 </style>

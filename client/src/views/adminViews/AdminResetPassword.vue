@@ -65,15 +65,12 @@ export default {
     required: value => !!value || "Required."
   }),
   async mounted() {
-      console.log('hello')
     let uri = window.location.href.split("/");
       uri = uri[uri.length - 1];
       await AdminService.resetAdminPasswordStart(uri)
       .then((response)=> {
         this.email = response.data.uri
-        console.log(response)
       }).catch((error)=>{
-          console.log(error)
         this.error = "There was a connection error, please try again later"
         setTimeout(()=> {
           this.error = null

@@ -208,6 +208,7 @@
 <script>
 import AdminService from "@/services/AdminServices";
 import Panel from "@/components/Panel";
+import Authenticate from "../../functions/authenticateAdmin";
 export default {
   data() {
     return {
@@ -252,7 +253,6 @@ export default {
         });
       } else {
         this.show();
-        // this.displayData = this.totalItems;
       }
     }
   },
@@ -260,37 +260,8 @@ export default {
     this.mainData = [];
     this.displayData = [];
     this.invoiceData = [];
-    if (
-      this.$store.state.administration.admin_token !== null &&
-      this.$store.state.administration.isAdminUserLoggedIn !== false &&
-      this.$store.state.administration.admin_user !== null &&
-      this.$store.state.administration.admin_username !== null
-    ) {
-      await AdminService.authenticateAdmin({
-        token: this.$store.state.administration.admin_token,
-        user: this.$store.state.administration.admin_user.id,
-        email: this.$store.state.administration.admin_user.email
-      })
-        .then(response => {
-          //   console.log("response is", response.data.success);
-          if (!response.data.success) {
-            this.$store.dispatch("setAdminToken", null);
-            this.$store.dispatch("setAdminUser", null);
-            this.$store.dispatch("setAdminUserName", null);
-            this.error =
-              "Your session has expired! You will be redirected to the login page.";
-            setTimeout(() => {
-              this.error = null;
-              this.$router.push({
-                name: "adminLogin"
-              });
-            }, 800);
-          }
-        })
-        .catch(error => {
-          this.error = error.response;
-        });
-    }
+    this.Authenticate = Authenticate.authenticate;
+    this.Authenticate();
     if (!this.$store.state.administration.isAdminUserLoggedIn) {
       this.error =
         "Your session has expired! You will be redirected to the login page.";
@@ -318,19 +289,16 @@ export default {
       try {
         const response = await AdminService.customerViews();
         this.mainData = response.data;
-        console.log(response.data);
         this.show();
       } catch (err) {
         console.log(err);
       }
     },
     show() {
-      console.log("Testing");
       this.displayData = this.mainData;
     },
     async editCustomer(event) {
       let id = event.currentTarget.id;
-      // console.log(id);
       this.display = true;
       let selected = this.mainData.find(el => {
         return el.id == id;
@@ -350,16 +318,11 @@ export default {
         let response = await AdminService.customerInvoices({
           id: this.editID
         });
-        console.log(response.data);
-        //   let hostURL = `http://localhost:3000/files/Invoice-`
         let hostURL = `http://localhost:3000/files/Invoice-`;
         this.invoiceData = response.data;
         this.invoiceData.forEach(el => {
           el.download = `${hostURL}${el.id}.pdf`;
         });
-        console.log(this.invoiceData);
-
-        // http://${host}:${port}/download/${filetodownload}
       } catch (err) {
         console.log(err);
       }
@@ -404,8 +367,8 @@ export default {
         });
 
         let foundIndex = null;
-        let test = this.mainData.find((el, index) => {
-          // console.log("Index Number::", index);
+        // let test = this.mainData.find((el, index) => {
+        this.mainData.find((el, index) => {
           if (el.id === this.editID) {
             foundIndex = index;
             return el.id === this.editID;
@@ -424,7 +387,6 @@ export default {
           city: this.city,
           province: this.province
         };
-        console.log("Index Number of changed Item", test);
         this.mainData.splice(foundIndex, 1);
         this.mainData.push(editedItem);
         this.mainData = this.mainData.sort(function(a, b) {
@@ -436,7 +398,6 @@ export default {
           }
           return 0;
         });
-        console.log(response.data.success);
         this.success = response.data.success;
         setTimeout(() => {
           // this.getDataToEdit();

@@ -2,34 +2,59 @@
   <v-container column justify-content-space-evenly style=" width: 100%">
     <v-layout column>
       <v-flex xs12 sm8 md4>
-        <img src="../assets/heart_PNG51352.png" alt="LOGO" style="width: 10%;">
+        <img
+          src="../assets/heart_PNG51352.png"
+          alt="LOGO"
+          style="width: 10%;"
+        />
       </v-flex>
       <transition name="welcome">
-        <v-flex >
+        <v-flex>
           <h1>View our Products</h1>
         </v-flex>
       </transition>
     </v-layout>
-    <v-layout row justify-space-between >
-      <v-flex elevation-3 xs12 sm8 md12  >
+    <v-layout row justify-space-between>
+      <v-flex elevation-3 xs12 sm8 md12>
         <panel title="Search">
-          <div style="display: flex; justify-content: space-between; width:100%;">
-            <v-text-field placeholder="Search" v-model="search" style="width:90%;"></v-text-field>  
-            <v-btn flat color="black" dark @click="clearSearch" style="width:10%;">
+          <div
+            style="display: flex; justify-content: space-between; width:100%;"
+          >
+            <v-text-field
+              placeholder="Search"
+              v-model="search"
+              style="width:90%;"
+            >
+            </v-text-field>
+            <v-btn
+              flat
+              color="black"
+              dark
+              @click="clearSearch"
+              style="width:10%;"
+            >
               <v-icon>clear</v-icon>
             </v-btn>
           </div>
         </panel>
       </v-flex>
     </v-layout>
-    <v-layout row wrap justify-space-between >
+    <v-layout row wrap justify-space-between>
       <v-flex
-  
-         ml-1 mt-4 mr-2 xs12 sm8 md3 offset-sm0 offset-xs0 offset-md0 elevation-3
+        ml-1
+        mt-4
+        mr-2
+        xs12
+        sm8
+        md3
+        offset-sm0
+        offset-xs0
+        offset-md0
+        elevation-3
         v-for="(item, i) in items"
         :key="i"
       >
-          <!-- <div style="width: 100%;"> -->
+        <!-- <div style="width: 100%;"> -->
 
         <v-hover>
           <v-card
@@ -37,14 +62,15 @@
             :class="`elevation-${hover ? 12 : 2}`"
             class="mx-auto showroom"
             width="300"
-            height="480"
+            height="500"
             offset-xs0
             offset-sm0
             offset-md0
             ml-1
             mr-2
-            xs12 sm8 md3
-      
+            xs12
+            sm8
+            md3
           >
             <vue-load-image>
               <img
@@ -52,19 +78,21 @@
                 :src="item.product_image"
                 style="width: 100%; "
                 :aspect-ratio="2.75"
-              >
-              <img slot="preloader" src="../assets/30.gif" style="width: 100%;">
+              />
+              <img
+                slot="preloader"
+                src="../assets/30.gif"
+                style="width: 100%;"
+              />
               <div slot="error">error message</div>
-              
             </vue-load-image>
-            <hr>
+            <hr />
             <v-card-title primary-title>
               <div>
-            
                 <h3 class="headline mb-0">{{ item.product_name }}</h3>
-                <br>
+                <br />
                 <div style="height:80px;">{{ item.product_description }}</div>
-                <br>
+                <br />
                 <div style="font-size: 15px;">R{{ item.price }}</div>
               </div>
             </v-card-title>
@@ -83,15 +111,11 @@
                 flat
                 color="#305f72"
                 @click="viewItem($event)"
-              >See More</v-btn>
-              <!-- <v-btn v-if="isUserLoggedIn" flat color="#305f72"
-                >Add to Cart
-              </v-btn>-->
+                >See More
+              </v-btn>
             </v-card-actions>
           </v-card>
-         
         </v-hover>
-         <!-- </div> -->
       </v-flex>
     </v-layout>
   </v-container>
@@ -116,6 +140,7 @@ export default {
     search: function() {
       if (this.search !== "") {
         let query = this.search.toLowerCase();
+        this.items = this.totalItems;
         this.items = this.items.filter(el => {
           return el.product_name.toLowerCase().indexOf(query) >= 0;
         });
@@ -167,13 +192,12 @@ export default {
 
 @media screen and (max-width: 820px) {
   v-card {
-    width:250px;
+    width: 250px;
     margin-left: 0%;
     // padding: 0%;
   }
   .showroom {
     width: 100;
   }
- 
 }
 </style>

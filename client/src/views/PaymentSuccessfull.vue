@@ -63,7 +63,6 @@ export default {
       this.$store.dispatch("addToCart", 0);
       this.$store.dispatch("addToShoppingCart", []);
       this.$store.dispatch("readyToInvoice", false);
-      console.log(this.$store.state.readyToInvoice);
       setTimeout(() => {
         this.$router.push({ name: "home" });
       }, 2000);

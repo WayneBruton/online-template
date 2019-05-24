@@ -152,7 +152,7 @@
 import CustomCropper from "@/components/importedComponents/CustomCropper";
 import AdminService from "@/services/AdminServices";
 import Panel from "@/components/Panel";
-// const fs = require("fs");
+import Authenticate from "@/functions/authenticateAdmin";
 export default {
   data() {
     return {
@@ -167,8 +167,7 @@ export default {
       breadth: "",
       length: "",
       price: "",
-      description:
-        "",
+      description: "",
       file: null,
       useCroppingTool: false,
       useCroppingToolLabel: "Use Cropping Tool",
@@ -177,37 +176,8 @@ export default {
     };
   },
   async mounted() {
-    if (
-      this.$store.state.administration.admin_token !== null &&
-      this.$store.state.administration.isAdminUserLoggedIn !== false &&
-      this.$store.state.administration.admin_user !== null &&
-      this.$store.state.administration.admin_username !== null
-    ) {
-      await AdminService.authenticateAdmin({
-        token: this.$store.state.administration.admin_token,
-        user: this.$store.state.administration.admin_user.id,
-        email: this.$store.state.administration.admin_user.email
-      })
-        .then(response => {
-          //   console.log("response is", response.data.success);
-          if (!response.data.success) {
-            this.$store.dispatch("setAdminToken", null);
-            this.$store.dispatch("setAdminUser", null);
-            this.$store.dispatch("setAdminUserName", null);
-            this.error =
-              "Your session has expired! You will be redirected to the login page.";
-            setTimeout(() => {
-              this.error = null;
-              this.$router.push({
-                name: "adminLogin"
-              });
-            }, 800);
-          }
-        })
-        .catch(error => {
-          this.error = error.response;
-        });
-    }
+    this.Authenticate = Authenticate.authenticate;
+    this.Authenticate();
     if (!this.$store.state.administration.isAdminUserLoggedIn) {
       this.error =
         "Your session has expired! You will be redirected to the login page.";
@@ -228,12 +198,10 @@ export default {
       this.$router.push("dashboard");
     },
     async checkProductName() {
-      console.log("BLUR");
       try {
         let response = await AdminService.checkProductName({
           productName: this.productName
         });
-        console.log(response);
         if (response) {
           this.error = "This name has already been used!";
           this.productName = "";
@@ -255,24 +223,21 @@ export default {
       formData.append("fileName", this.productImg);
       if (this.productImg) {
         try {
-          let response = await AdminService.removeImageFileName({
+          await AdminService.removeImageFileName({
+            // let response = await AdminService.removeImageFileName({
             fileName: this.productImg
           });
-          console.log(response);
         } catch (err) {
           console.log(err);
         }
       }
       try {
         let response = await AdminService.insertProductImage(formData);
-        console.log(response.data.File.filename);
         this.productImg = response.data.File.filename;
-        console.log("File name (imageSrc is:", response.data.imageFile);
         this.imgSRC = response.data.imageFile;
         this.fileType = response.data.fileType;
       } catch (err) {
         this.error = err;
-        console.log(err);
       }
     },
 
@@ -308,7 +273,6 @@ export default {
           price: parseFloat(this.price).toFixed(2),
           isAvailable: this.available
         });
-        console.log(response.data.success);
         this.success = response.data.success;
         setTimeout(() => {
           this.success = "";

@@ -1,5 +1,8 @@
 <template>
+        <transition appear name="fade">
+
   <v-container>
+
     <img src="../assets/heart_PNG51352.png" alt="LOGO" style="width: 10%; " />
     <v-flex xs12 sm12 md12>
       <h1>About</h1> 
@@ -152,6 +155,8 @@
       </div>
     </v-flex>
   </v-container>
+        </transition>
+
 </template>
 
 <style scoped>
@@ -163,8 +168,6 @@ p {
     flex-direction: column;
   }
   .topHalfContent {
-    /* display: flex; */
-    /* justify-content: center; */
     width: 100%;
     padding: 0px;
     margin: 0px;
