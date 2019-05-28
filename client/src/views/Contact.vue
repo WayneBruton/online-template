@@ -12,12 +12,14 @@
                 placeholder="First Name"
                 v-model="firstname"
                 autocomplete="false"
+                required
               ></v-text-field>
               <v-text-field
                 label="Last Name"
                 placeholder="Last name"
                 v-model="lastname"
                 autocomplete="false"
+                required
               ></v-text-field>
               <v-text-field
                 label="Email"
@@ -26,6 +28,7 @@
                 placeholder="email"
                 v-model="email"
                 autocomplete="false"
+                required
               ></v-text-field>
               <br />
               <v-textarea
@@ -79,7 +82,11 @@ export default {
   }),
   methods: {
     async sendMessage() {
-      await ContactService.contact({
+      if (this.firstname === "" || this.lastname === "" || this.email === "" || this.message === "") {
+        this.error = "All fields need to be filled in."
+      } else {
+        this.error = null
+        await ContactService.contact({
         firstname: this.firstname,
         lastname: this.lastname,
         email: this.email,
@@ -110,6 +117,9 @@ export default {
           this.error = "Error sending message, please try again later";
           this.success = null;
         });
+
+      }
+      
     }
   }
 };

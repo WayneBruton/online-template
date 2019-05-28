@@ -22,7 +22,16 @@ export default {
     PageHeader,
     Footer
   },
+  beforeCreate() {
+    console.log(window.location.pathname)
+    if (window.location.pathname !== "/") {
+      window.location.href = "/#" + window.location.pathname
+      // window.location.href = "/"
+    }
+    console.log("updated",window.location.pathname)
+  },
   async mounted() {
+    // console.log(window.location.pathname)
     if (
       this.$store.state.token !== null &&
       this.$store.state.isUserLoggedIn !== false &&
@@ -51,14 +60,14 @@ export default {
 </script>
 
 <style lang="scss">
-@font-face {
-  font-family: "MyFont1";
-  src: url("../src/assets/balloonxbdbtextrabold.ttf") format("truetype");
-}
-@font-face {
-  font-family: "MyFont2";
-  src: url("../src/assets/balonxb.ttf") format("truetype");
-}
+// @font-face {
+//   font-family: "MyFont1";
+//   src: url("../src/assets/balloonxbdbtextrabold.ttf") format("truetype");
+// }
+// @font-face {
+//   font-family: "MyFont2";
+//   src: url("../src/assets/balonxb.ttf") format("truetype");
+// }
 
 #app {
   font-family: "Syncopate", sans-serif;

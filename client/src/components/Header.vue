@@ -3,7 +3,7 @@
     <!-- <v-btn fab dark small color="red" class="logo" @click="clearCart">
       <v-icon dark>favorite</v-icon>
     </v-btn>-->
-    <img src="../assets/heart_PNG51352.png" alt="LOGO" style="width: 4%; heght:4%;">
+    <img id="corporateLogo" src="../assets/heart_PNG51352.png" alt="LOGO">
     <v-toolbar-title class="mr-1 myTitle" @click="navigateTo({ name: 'home' })">
       <span class="home">{{ header }}</span>
     </v-toolbar-title>
@@ -97,6 +97,7 @@
         <v-list-tile :to="{ name: 'about' }">
           <v-list-tile-title>About</v-list-tile-title>
         </v-list-tile>
+        <v-divider></v-divider>
         <v-list-tile
           v-if="
             !$store.state.isUserLoggedIn && !$store.state.administration.isAdminUserLoggedIn"
@@ -194,6 +195,10 @@ export default {
 .v-list-tile-title:hover {
   cursor: pointer;
 }
+#corporateLogo {
+    width: 4%;
+
+  }
 
 @media screen and (max-width: 820px) {
   #toolbarHeader {
@@ -213,5 +218,10 @@ export default {
   .home {
     font-size: 70%;
   }
+  #corporateLogo {
+    width: 10%;
+
+  }
+
 }
 </style>

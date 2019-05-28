@@ -16,7 +16,7 @@
     </v-layout>
     <v-layout row justify-space-between>
       <v-flex elevation-3 xs12 sm8 md12>
-        <panel title="Search">
+        <panel title="Search" v-if="totalItems.length > 10">
           <div
             style="display: flex; justify-content: space-between; width:100%;"
           >
@@ -27,6 +27,7 @@
             >
             </v-text-field>
             <v-btn
+              v-if="search"
               flat
               color="black"
               dark
@@ -154,7 +155,7 @@ export default {
     Panel
   },
   async mounted() {
-    this.items = [];
+    // this.items = [];
     try {
       this.items = (await StoreService.products()).data;
       this.isUserLoggedIn = this.$store.state.isUserLoggedIn;

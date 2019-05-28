@@ -60,7 +60,7 @@ create table cart (
     FOREIGN KEY (invoice_number) REFERENCES invoices(id)
 );
 
--- ADMIN
+
 
 create table admin_users (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -99,6 +99,7 @@ insert into products (product_name,product_description, price, product_image ) v
     199.90,
     "/images/image25.jpeg"
 ),
+insert into products (product_name,product_description, price, product_image ) values 
 (
     'Tic Tac Toe',
     'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa accusamus iure neque dicta

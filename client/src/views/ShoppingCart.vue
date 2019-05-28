@@ -289,6 +289,7 @@ export default {
         .then(response => {
           this.successURL = this.successURL + response.data.successURL;
           console.log(this.successURL);
+          console.log(this.cancelURL);
           this.successURL = this.successURL;
         })
         .catch(error => {

@@ -246,5 +246,4 @@ router.post("/addFaq", (req, res) => {
     });
   });
   
-
 module.exports = router;

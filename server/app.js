@@ -4,6 +4,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const fs = require("fs");
 const path = require("path");
+const history = require("connect-history-api-fallback");
 app = express();
 
 // app.use(morgan("combined"));
@@ -15,6 +16,8 @@ if (port === 3000) {
   const dotenv = require("dotenv").config();
 }
 
+
+
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
   bodyParser.urlencoded({
@@ -23,15 +26,17 @@ app.use(
 );
 app.use(bodyParser.json());
 
-const storeRoutes = require("../server/routes/store"),
-  authorizationRoutes = require("../server/routes/authorizationRoutes"),
-  checkoutRoutes = require("../server/routes/checkoutRoutes"),
-  finalizePaymentRoutes = require("../server/routes/finalizePaymentRoutes"),
-  contactRoutes = require("../server/routes/contactRoutes"),
-  authenticationRoutes = require("../server/routes/authenticationRoutes"),
-  adminRoutes = require("../server/routes/adminRoutes"),
-  databaseRoutes = require("../server/routes/databaseRoutes"),
-  statsRoutes = require("../server/routes/statsRoutes");
+// const storeRoutes = require("../server/routes/store"),
+const storeRoutes = require("./routes/store"),
+  authorizationRoutes = require("./routes/authorizationRoutes"),
+  checkoutRoutes = require("./routes/checkoutRoutes"),
+  finalizePaymentRoutes = require("./routes/finalizePaymentRoutes"),
+  contactRoutes = require("./routes/contactRoutes"),
+  authenticationRoutes = require("./routes/authenticationRoutes"),
+  adminRoutes = require("./routes/adminRoutes"),
+  databaseRoutes = require("./routes/databaseRoutes"),
+  statsRoutes = require("./routes/statsRoutes");
+ historyRoutes = require("./routes/historyRoutes");
 
 app.use(storeRoutes);
 app.use(contactRoutes);
@@ -43,6 +48,27 @@ app.use(statsRoutes);
 
 app.use(adminRoutes);
 app.use(authorizationRoutes);
+
+
+const staticFileMiddleware = express.static(path.join(__dirname + "/dist"));
+
+app.use(staticFileMiddleware);
+app.use(
+  history({
+    disableDotRule: true,
+    verbose: true
+  })
+);
+app.use(staticFileMiddleware);
+
+app.get("/", function(req, res) {
+  // res.render(path.join(__dirname + "/dist/index.html"));
+  res.render(path.join(__dirname + "/index.html"));
+});
+
+
+
+
 
 app.listen(port, () => {
   console.log(`Server running on port: ${port}`);

@@ -115,6 +115,7 @@ export default {
         this.$store.dispatch("setToken", response.data.token);
         this.$store.dispatch("setUser", response.data.user);
         this.$store.dispatch("setUserName", response.data.user.username);
+        console.log("HASH:",response.data.hash)
       } catch (error) {
         this.error = error.response.data.error;
       }

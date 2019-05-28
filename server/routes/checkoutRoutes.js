@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const pool = require("./connection");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
-const Cryptr = require("cryptr");
-const cryptr = new Cryptr(process.env.ENCRYPTION_SECRET);
+// const jwt = require("jsonwebtoken");
+// const bcrypt = require("bcryptjs");
+// const Cryptr = require("cryptr");
+// const cryptr = new Cryptr(process.env.ENCRYPTION_SECRET);
 
 router.get("/deliveryDetails/:id", (req, res) => {
   let mysql = `select * from users where id = ${req.params.id}`;

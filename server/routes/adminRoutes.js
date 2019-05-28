@@ -12,8 +12,8 @@ const cryptr = new Cryptr(process.env.ENCRYPTION_SECRET);
 
 let jwtSecret = process.env.JWT_SECRET;
 
-const saltRounds = process.env.SALT_ROUNDS;
-// const saltRounds = 10
+const saltRounds = parseInt(process.env.SALT_ROUNDS);
+
 
 let validateAddAdmin = (req, res, next) => {
     const schema = {

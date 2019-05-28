@@ -2,18 +2,25 @@
         <transition appear name="fade">
 
   <v-container>
-
     <img src="../assets/heart_PNG51352.png" alt="LOGO" style="width: 10%; " />
-    <v-flex xs12 sm12 md12>
+    <!-- <v-flex xs12 sm12 md12> -->
+    <!-- <v-flex xs12 sm12 md12> -->
       <h1>About</h1> 
-      <div style="display: flex; flex-direction: column;">
+      <div class="totalContent" style="display: flex; flex-direction: column;">
         <div class="topHalf" style="display: flex; width: 100%; justify-content: flex-start;">
-          <div class="topHalfContent" style="width:100%; padding: 20px; margin: 20px; ">
+          <div class="topHalfContentImages">
             <img
+              class="aboutImage"
               src="../assets/image27.jpeg"
               alt="LOGO"
-              style="width:100%; height: 100%; border: 1px solid black; border-radius: 7px;"
+              
             />
+            <img
+                class="aboutImage"
+                src="../assets/image37.jpeg"
+                alt="LOGO"
+              />
+            
           </div>
           <div  class="topHalfContent" style="width:100%; text-align: center;">
             <br />
@@ -143,17 +150,23 @@
                 child’s face.
               </p>
             </div>
-            <div class="topHalfContent" style="width:100%; padding: 20px;   margin: 20px; ">
+            <div class="topHalfContentImages" >
               <img
+                class="aboutImage"
                 src="../assets/image37.jpeg"
                 alt="LOGO"
-                style="width:100%; height: 100%; border: 1px solid black; border-radius: 7px;"
               />
+              <img
+              class="aboutImage"
+              src="../assets/image27.jpeg"
+              alt="LOGO"
+              
+            />
             </div>
           </div>
         </div>
       </div>
-    </v-flex>
+    <!-- </v-flex> -->
   </v-container>
         </transition>
 
@@ -163,16 +176,31 @@
 p {
   font-size: 115%;
 }
-@media screen and (max-width: 820px) {
+
+.topHalfContentImages {
+ width:100%; 
+ padding: 20px;   
+ margin: 20px;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ align-content: space-between;
+ 
+}
+
+.aboutImage {
+  width:100%;
+  /* height: 100%; */
+  border: 1px solid black;
+  border-radius: 7px;
+  margin-bottom: 15px;
+}
+@media screen and (max-width: 768px) {
   .topHalf {
     flex-direction: column;
-  }
-  .topHalfContent {
-    width: 100%;
-    padding: 0px;
+    align-items: center;
+     padding: 0px;
     margin: 0px;
-    margin-right: 20px;
-    
   }
 }
 

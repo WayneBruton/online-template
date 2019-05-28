@@ -5,8 +5,8 @@ const jwt = require("jsonwebtoken");
 const Joi = require("joi");
 const bcrypt = require("bcryptjs");
 
-const saltRounds = process.env.SALT_ROUNDS;
-// const saltRounds = 10
+const saltRounds = parseInt(process.env.SALT_ROUNDS);
+
 
 router.use((req, res, next) => {
   const schema = {
@@ -69,6 +69,7 @@ router.post("/registerUser", (req, res, next) => {
       req.body.email
     }', '${hash}'
     )`;
+    console.log("Hash", hash)
     let mysql2 = `select * from users where email = '${req.body.email}'`;
     pool.getConnection(function(err, connection) {
       if (err) {
@@ -91,7 +92,8 @@ router.post("/registerUser", (req, res, next) => {
           res.header("Authorization", "Bearer" + jwtSignUser(userJson));
           res.json({
             user: userJson,
-            token: jwtSignUser(userJson)
+            token: jwtSignUser(userJson),
+            hash: hash
           });
         });
       });

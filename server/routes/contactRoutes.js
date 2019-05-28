@@ -8,8 +8,8 @@ const cryptr = new Cryptr(process.env.ENCRYPTION_SECRET);
 const bcrypt = require("bcryptjs");
 const fs = require('fs')
 
-// const saltRounds = process.env.SALT_ROUNDS;
-const saltRounds = 10
+const saltRounds = parseInt(process.env.SALT_ROUNDS);
+
 
 
 
