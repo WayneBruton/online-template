@@ -145,7 +145,7 @@ export default {
           this.containerTop
         }px;`
       );
-      this.$refs.box.rec = { w: rw, h: rh, l: 0, t: 0 };
+      this.$refs.box.rec = { w: rw/2, h: rh, l: 0, t: 0 };
     },
     getComputedRec(r) {
       const cw = this.$imgContainer.offsetWidth;
@@ -195,7 +195,7 @@ export default {
       this.clipData = bufferCanvas.toDataURL("image/jpeg", 1);
       let param1 = this.clipData;
 
-      this.$emit("fileUploaded", param1);
+      this.$emit("fileUploaded", param1); 
     }
   }
 };

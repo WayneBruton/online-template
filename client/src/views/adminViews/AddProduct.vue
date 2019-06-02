@@ -16,8 +16,8 @@
               color="black lighten-1"
               @click="cropping"
             ></v-checkbox>
-            <!-- <Custom-Cropper v-if="useCroppingTool" @fileUploaded="updateImage"></Custom-Cropper> -->
-            <Custom-Cropper v-if="useCroppingTool"></Custom-Cropper>
+            <Custom-Cropper v-if="useCroppingTool" @fileUploaded="updateImage"></Custom-Cropper>
+            <!-- <Custom-Cropper v-if="useCroppingTool"></Custom-Cropper> -->
             <br />
             <v-flex sm12 offset-xs0>
               <form enctype="multipart/form-data">
@@ -213,9 +213,12 @@ export default {
         console.log(err);
       }
     },
-    // updateImage: function(param1) {
-    //   // this.productImg = param1;
-    // },
+    updateImage: function(param1) {
+      this.productImg = param1;
+      console.log(this.productImg)
+
+      //NNNNNBBBBB
+    },
     async selectFile() {
       this.file = this.$refs.file.files[0];
       let formData = new FormData();

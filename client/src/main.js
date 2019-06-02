@@ -7,6 +7,9 @@ import "vuetify/dist/vuetify.min.css";
 import { sync } from "vuex-router-sync";
 import "material-design-icons/iconfont/material-icons.css";
 import "@/plugins/echarts";
+import VueLazyload from 'vue-lazyload'
+ 
+Vue.use(VueLazyload)
 
 Vue.use(Vuetify);
 

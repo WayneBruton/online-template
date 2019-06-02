@@ -16,7 +16,7 @@ if (port === 3000) {
   const dotenv = require("dotenv").config();
 }
 
-
+// console.log(__dirname)
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
@@ -49,24 +49,25 @@ app.use(statsRoutes);
 app.use(adminRoutes);
 app.use(authorizationRoutes);
 
+// const history = require("connect-history-api-fallback");
 
-const staticFileMiddleware = express.static(path.join(__dirname + "/dist"));
+// // const staticFileMiddleware = express.static(path.join(__dirname + "/dist"));
+// const staticFileMiddleware = express.static("/");
 
-app.use(staticFileMiddleware);
+// app.use(staticFileMiddleware);
 app.use(
   history({
     disableDotRule: true,
     verbose: true
   })
 );
-app.use(staticFileMiddleware);
+// app.use(staticFileMiddleware);
 
 app.get("/", function(req, res) {
   // res.render(path.join(__dirname + "/dist/index.html"));
-  res.render(path.join(__dirname + "/index.html"));
+  // res.render(path.join(__dirname + "/index.html"));
+  res.render("index.html");
 });
-
-
 
 
 

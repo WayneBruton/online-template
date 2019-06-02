@@ -21,6 +21,7 @@ router.get("/products", (req, res) => {
         el.price = el.price.toFixed(2);
       });
       res.json(result);
+      console.log(result)
     });
     connection.release();
   });

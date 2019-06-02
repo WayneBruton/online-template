@@ -2,11 +2,7 @@
   <v-container column justify-content-space-evenly style=" width: 100%">
     <v-layout column>
       <v-flex xs12 sm8 md4>
-        <img
-          src="../assets/heart_PNG51352.png"
-          alt="LOGO"
-          style="width: 10%;"
-        />
+        <img src="../assets/heart_PNG51352.png" alt="LOGO" style="width: 10%;">
       </v-flex>
       <transition name="welcome">
         <v-flex>
@@ -17,23 +13,9 @@
     <v-layout row justify-space-between>
       <v-flex elevation-3 xs12 sm8 md12>
         <panel title="Search" v-if="totalItems.length > 10">
-          <div
-            style="display: flex; justify-content: space-between; width:100%;"
-          >
-            <v-text-field
-              placeholder="Search"
-              v-model="search"
-              style="width:90%;"
-            >
-            </v-text-field>
-            <v-btn
-              v-if="search"
-              flat
-              color="black"
-              dark
-              @click="clearSearch"
-              style="width:10%;"
-            >
+          <div style="display: flex; justify-content: space-between; width:100%;">
+            <v-text-field placeholder="Search" v-model="search" style="width:90%;"></v-text-field>
+            <v-btn v-if="search" flat color="black" dark @click="clearSearch" style="width:10%;">
               <v-icon>clear</v-icon>
             </v-btn>
           </div>
@@ -73,27 +55,29 @@
             sm8
             md3
           >
-            <vue-load-image>
-              <img
+            <!-- <vue-load-image> -->
+             <img 
+           
+             v-lazy="item.product_image"
+             style="width: 100%; "
+                :aspect-ratio="2.75"
+                 >
+              <!-- <img
                 slot="image"
                 :src="item.product_image"
                 style="width: 100%; "
                 :aspect-ratio="2.75"
-              />
-              <img
-                slot="preloader"
-                src="../assets/30.gif"
-                style="width: 100%;"
-              />
-              <div slot="error">error message</div>
-            </vue-load-image>
-            <hr />
+              > -->
+              <!-- <img slot="preloader" src="../assets/30.gif" style="width: 100%;"> -->
+              <!-- <div slot="error">error message</div> -->
+            <!-- </vue-load-image> -->
+            <hr>
             <v-card-title primary-title>
               <div>
                 <h3 class="headline mb-0">{{ item.product_name }}</h3>
-                <br />
+                <br>
                 <div style="height:80px;">{{ item.product_description }}</div>
-                <br />
+                <br>
                 <div style="font-size: 15px;">R{{ item.price }}</div>
               </div>
             </v-card-title>
@@ -112,8 +96,7 @@
                 flat
                 color="#305f72"
                 @click="viewItem($event)"
-                >See More
-              </v-btn>
+              >See More</v-btn>
             </v-card-actions>
           </v-card>
         </v-hover>
@@ -124,7 +107,6 @@
 
 <script>
 import StoreService from "../services/StoreServices";
-import VueLoadImage from "vue-load-image";
 import Panel from "@/components/Panel.vue";
 export default {
   data() {
@@ -151,7 +133,6 @@ export default {
     }
   },
   components: {
-    "vue-load-image": VueLoadImage,
     Panel
   },
   async mounted() {
@@ -160,6 +141,7 @@ export default {
       this.items = (await StoreService.products()).data;
       this.isUserLoggedIn = this.$store.state.isUserLoggedIn;
       this.totalItems = this.items;
+      // console.log(this.items)
     } catch (err) {
       console.log(err);
     }

@@ -1,13 +1,13 @@
 <template>
   <div id="app">
     <v-app>
-      <PageHeader />
+      <PageHeader/>
       <v-container>
         <div id="nav">
-          <router-view />
+          <router-view/>
         </div>
       </v-container>
-      <Footer />
+      <Footer/>
     </v-app>
   </div>
 </template>
@@ -22,14 +22,14 @@ export default {
     PageHeader,
     Footer
   },
-  beforeCreate() {
-    console.log(window.location.pathname)
-    if (window.location.pathname !== "/") {
-      window.location.href = "/#" + window.location.pathname
-      // window.location.href = "/"
-    }
-    console.log("updated",window.location.pathname)
-  },
+  // beforeCreate() {
+  //   console.log(window.location.pathname)
+  //   if (window.location.pathname !== "/") {
+  //     window.location.href = "/#" + window.location.pathname
+  //     // window.location.href = "/"
+  //   }
+  //   console.log("updated",window.location.pathname)
+  // },
   async mounted() {
     // console.log(window.location.pathname)
     if (
