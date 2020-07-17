@@ -12,7 +12,7 @@
     "core-js": "^2.6.5",
     "echarts": "^4.2.1",
     "file-loader": "^3.0.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "material-design-icons": "^3.0.1",
     "vue": "^2.6.10",
     "vue-echarts": "^4.0.2",
